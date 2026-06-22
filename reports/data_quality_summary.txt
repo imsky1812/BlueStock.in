@@ -1,0 +1,28 @@
+DATA QUALITY SUMMARY - Generated 2026-06-23 00:25:50
+============================================================
+fund_master AMFI codes   : 40
+nav_history AMFI codes   : 40
+Matched codes            : 40
+Missing in nav_history   : 0
+Extra in nav_history     : 0
+
+------------------------------------------------------------
+PER-DATASET QUALITY STATS
+------------------------------------------------------------
+01_fund_master                 | rows=     40 | cols= 15 | nulls=  0.0% | dups=    0
+02_nav_history                 | rows= 46,000 | cols=  3 | nulls=  0.0% | dups=    0
+03_aum_by_fund_house           | rows=     90 | cols=  5 | nulls=  0.0% | dups=    0
+04_monthly_sip_inflows         | rows=     48 | cols=  6 | nulls=  4.2% | dups=    0
+05_category_inflows            | rows=    144 | cols=  3 | nulls=  0.0% | dups=    0
+06_industry_folio_count        | rows=     21 | cols=  6 | nulls=  0.0% | dups=    0
+07_scheme_performance          | rows=     40 | cols= 19 | nulls=  0.0% | dups=    0
+08_investor_transactions       | rows= 32,778 | cols= 13 | nulls=  0.0% | dups=    0
+09_portfolio_holdings          | rows=    322 | cols=  8 | nulls=  0.0% | dups=    0
+10_benchmark_indices           | rows=  8,050 | cols=  3 | nulls=  0.0% | dups=    0
+live_nav_118632                | rows=  3,312 | cols=  7 | nulls=  0.0% | dups=    0
+live_nav_119092                | rows=  3,579 | cols=  7 | nulls=  0.0% | dups=    0
+live_nav_119551                | rows=  3,250 | cols=  7 | nulls=  0.0% | dups=    0
+live_nav_120503                | rows=  3,321 | cols=  7 | nulls=  0.0% | dups=    0
+live_nav_120841                | rows=  3,315 | cols=  7 | nulls=  0.0% | dups=    0
+live_nav_125497                | rows=  3,105 | cols=  7 | nulls=  0.0% | dups=    0
+live_nav_all_schemes           | rows= 19,882 | cols=  7 | nulls=  0.0% | dups=    0
