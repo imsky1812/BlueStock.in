@@ -16,7 +16,7 @@ pip-log.txt
 *.ipynb_checkpoints
 
 # Data - keep raw CSVs but ignore large processed files
-data/processed/*.csv
+# data/processed/*.csv
 
 # OS
 .DS_Store
