@@ -1,0 +1,17 @@
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# local configurations/virtual environments
+venv/
+.venv/
+env/
+.env
+
+# OS temporary files
+Thumbs.db
+ehthumbs.db
+Desktop.ini

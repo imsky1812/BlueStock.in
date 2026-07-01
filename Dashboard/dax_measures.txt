@@ -1,0 +1,210 @@
+===============================================================================
+POWER BI DAX MEASURES - BLUESTOCK MUTUAL FUND ANALYTICS
+===============================================================================
+
+-------------------------------------------------------------------------------
+1. INDUSTRY OVERVIEW KPIs (Page 1)
+-------------------------------------------------------------------------------
+
+-- Latest Industry AUM (Lakh Crore)
+-- Sum of AUM for the latest date available in the dataset
+Latest_Industry_AUM_Lakh_Cr = 
+VAR LatestDate = CALCULATE(MAX(fact_aum[date]), ALL(fact_aum))
+RETURN
+CALCULATE(
+    SUM(fact_aum[aum_lakh_crore]),
+    fact_aum[date] = LatestDate
+)
+
+-- Latest Monthly SIP Inflow (Crore)
+Latest_SIP_Inflow_Cr = 
+VAR LatestMonth = CALCULATE(MAX(fact_monthly_sip_inflows[month]), ALL(fact_monthly_sip_inflows))
+RETURN
+CALCULATE(
+    SUM(fact_monthly_sip_inflows[sip_inflow_crore]),
+    fact_monthly_sip_inflows[month] = LatestMonth
+)
+
+-- Latest Total Folios (Crore)
+Latest_Total_Folios_Cr = 
+VAR LatestMonth = CALCULATE(MAX(fact_industry_folio_count[month]), ALL(fact_industry_folio_count))
+RETURN
+CALCULATE(
+    SUM(fact_industry_folio_count[total_folios_crore]),
+    fact_industry_folio_count[month] = LatestMonth
+)
+
+-- Unique Schemes Count
+Total_Schemes = DISTINCTCOUNT(dim_fund[amfi_code])
+
+
+-------------------------------------------------------------------------------
+2. FUND PERFORMANCE AND RISK METRICS (Page 2)
+-------------------------------------------------------------------------------
+
+-- Daily Returns (Calculated Column in fact_nav)
+-- Go to fact_nav, create a new column:
+Fund_Daily_Return = 
+VAR CurrentNAV = fact_nav[nav]
+VAR CurrentDate = fact_nav[date]
+VAR CurrentAMFI = fact_nav[amfi_code]
+VAR PriorDate = 
+    CALCULATE(
+        MAX(fact_nav[date]),
+        fact_nav[amfi_code] = CurrentAMFI,
+        fact_nav[date] < CurrentDate
+    )
+VAR PriorNAV = 
+    CALCULATE(
+        MAX(fact_nav[nav]),
+        fact_nav[amfi_code] = CurrentAMFI,
+        fact_nav[date] = PriorDate
+    )
+RETURN
+    IF(ISBLANK(PriorNAV), BLANK(), DIVIDE(CurrentNAV - PriorNAV, PriorNAV))
+
+
+-- Annualized Volatility (Std Dev)
+Annualized_Volatility = 
+STDEV.S(fact_nav[Fund_Daily_Return]) * SQRT(252)
+
+
+-- 3-Year CAGR Return
+-- Computes the annualized return over the 3-year period (2023-05-29 to 2026-05-29)
+Return_3Yr_CAGR = 
+VAR EndDate = DATE(2026, 5, 29)
+VAR StartDate = DATE(2023, 5, 29)
+VAR EndNAV = CALCULATE(SUM(fact_nav[nav]), fact_nav[date] = EndDate)
+VAR StartNAV = CALCULATE(SUM(fact_nav[nav]), fact_nav[date] = StartDate)
+RETURN
+    IF(OR(ISBLANK(EndNAV), ISBLANK(StartNAV)), BLANK(), (EndNAV / StartNAV) ^ (1 / 3) - 1)
+
+
+-- Annualized Sharpe Ratio
+-- Rf = 6.5% (annualized), daily Rf = 6.5% / 252. Sharpe = (Mean(Rp) - Rf_daily) / Std(Rp) * sqrt(252)
+Sharpe_Ratio = 
+VAR Rf_Daily = 0.065 / 252
+VAR Mean_Daily = AVERAGE(fact_nav[Fund_Daily_Return])
+VAR Std_Daily = STDEV.S(fact_nav[Fund_Daily_Return])
+RETURN
+    DIVIDE(Mean_Daily - Rf_Daily, Std_Daily) * SQRT(252)
+
+
+-- Downside Volatility (annualized, negative returns only)
+Downside_Volatility = 
+VAR Rf_Daily = 0.065 / 252
+VAR Downside_Variance = 
+    AVERAGEX(
+        FILTER(fact_nav, fact_nav[Fund_Daily_Return] < 0),
+        (fact_nav[Fund_Daily_Return] - Rf_Daily) ^ 2
+    )
+RETURN
+    SQRT(Downside_Variance) * SQRT(252)
+
+
+-- Annualized Sortino Ratio
+Sortino_Ratio = 
+VAR Rf_Daily = 0.065 / 252
+VAR Mean_Daily = AVERAGE(fact_nav[Fund_Daily_Return])
+VAR Downside_Vol = [Downside_Volatility] / SQRT(252) -- Daily downside deviation
+RETURN
+    DIVIDE(Mean_Daily - Rf_Daily, Downside_Vol) * SQRT(252)
+
+
+-- Maximum Drawdown
+-- Calculated as a measure over fact_nav
+Max_Drawdown = 
+VAR SelectedAMFI = SELECTEDVALUE(dim_fund[amfi_code])
+VAR CurrentDate = MAX(fact_nav[date])
+VAR RunningMax = 
+    CALCULATE(
+        MAX(fact_nav[nav]),
+        FILTER(
+            ALL(fact_nav),
+            fact_nav[amfi_code] = SelectedAMFI &&
+            fact_nav[date] <= CurrentDate
+        )
+    )
+VAR Drawdown = DIVIDE(MAX(fact_nav[nav]) - RunningMax, RunningMax)
+RETURN
+    MINX(
+        SUMMARIZE(fact_nav, fact_nav[date], "DD", [Drawdown]),
+        [DD]
+    )
+
+
+-------------------------------------------------------------------------------
+3. COMPOSITE SCORECARD RANKINGS (Page 2 & Scorecard Table)
+-------------------------------------------------------------------------------
+
+-- 3Yr CAGR Rank (Percentile Rank 0-100)
+Rank_3Yr_Pct = 
+VAR TotalFunds = COUNTROWS(ALL(dim_fund))
+VAR RawRank = RANKX(ALL(dim_fund), [Return_3Yr_CAGR], , DESC, Skip)
+RETURN
+    DIVIDE(TotalFunds - RawRank, TotalFunds - 1) * 100
+
+-- Sharpe Rank (Percentile Rank 0-100)
+Rank_Sharpe_Pct = 
+VAR TotalFunds = COUNTROWS(ALL(dim_fund))
+VAR RawRank = RANKX(ALL(dim_fund), [Sharpe_Ratio], , DESC, Skip)
+RETURN
+    DIVIDE(TotalFunds - RawRank, TotalFunds - 1) * 100
+
+-- Alpha Rank (Percentile Rank 0-100)
+-- Assuming Alpha is pulled from fact_performance or calculated.
+-- For ranking by calculated Alpha from Python or database:
+Rank_Alpha_Pct = 
+VAR TotalFunds = COUNTROWS(ALL(dim_fund))
+VAR RawRank = RANKX(ALL(dim_fund), SUM(fact_performance[alpha]), , DESC, Skip)
+RETURN
+    DIVIDE(TotalFunds - RawRank, TotalFunds - 1) * 100
+
+-- Expense Rank (Percentile Rank 0-100, Inverse - lower is better)
+Rank_Expense_Pct = 
+VAR TotalFunds = COUNTROWS(ALL(dim_fund))
+VAR RawRank = RANKX(ALL(dim_fund), SUM(dim_fund[expense_ratio_pct]), , ASC, Skip) -- Rank ascending for lower expense ratio
+RETURN
+    DIVIDE(TotalFunds - RawRank, TotalFunds - 1) * 100
+
+-- Max Drawdown Rank (Percentile Rank 0-100, Inverse - less negative is better)
+Rank_MaxDD_Pct = 
+VAR TotalFunds = COUNTROWS(ALL(dim_fund))
+VAR RawRank = RANKX(ALL(dim_fund), [Max_Drawdown], , DESC, Skip) -- Rank descending: higher value (closer to 0) is better
+RETURN
+    DIVIDE(TotalFunds - RawRank, TotalFunds - 1) * 100
+
+-- Composite Scorecard (0-100)
+Composite_Score = 
+    (0.30 * [Rank_3Yr_Pct]) +
+    (0.25 * [Rank_Sharpe_Pct]) +
+    (0.20 * [Rank_Alpha_Pct]) +
+    (0.15 * [Rank_Expense_Pct]) +
+    (0.10 * [Rank_MaxDD_Pct])
+
+-- Scorecard Rank (1-40)
+Scorecard_Rank = 
+    RANKX(ALL(dim_fund), [Composite_Score], , DESC, Skip)
+
+
+-------------------------------------------------------------------------------
+4. TRACKING ERROR (Page 4 / Benchmark Comparison)
+-------------------------------------------------------------------------------
+
+-- Annualized Tracking Error against Nifty 50
+Tracking_Error_Nifty50 = 
+VAR Nifty50_Daily_Return = 
+    CALCULATE(
+        AVERAGE(fact_benchmark_indices[close_value]),
+        fact_benchmark_indices[index_name] = "NIFTY50"
+    )
+VAR Fund_Returns = fact_nav[Fund_Daily_Return]
+VAR Bench_Returns = 
+    CALCULATE(
+        AVERAGE(fact_benchmark_indices[close_value]),
+        FILTER(fact_benchmark_indices, fact_benchmark_indices[date] = fact_nav[date] && fact_benchmark_indices[index_name] = "NIFTY50")
+    )
+-- Difference in returns
+VAR Diff = Fund_Returns - Bench_Returns
+RETURN
+    STDEV.S(Diff) * SQRT(252)
