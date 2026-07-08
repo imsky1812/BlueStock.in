@@ -1,0 +1,39 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Virtual environments
+venv/
+.venv/
+env/
+.env
+
+# ── CRITICAL: never commit the database (share schema.sql instead) ──
+*.db
+*.sqlite
+*.sqlite3
+
+# IDE / OS
+.vscode/
+.idea/
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+.DS_Store
+
+# Large output files
+*.png
+*.pdf
+# Exception: keep the report HTML
+!reports/Final_Report.html
+
+# Logs
+*.log
+etl_pipeline.log

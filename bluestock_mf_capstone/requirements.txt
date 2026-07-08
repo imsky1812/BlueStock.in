@@ -1,0 +1,31 @@
+# BlueStock MF Capstone — Python Dependencies
+# Install with: pip install -r requirements.txt
+
+# Core data stack
+pandas>=2.0.0
+numpy>=1.24.0
+scipy>=1.11.0
+
+# Database
+sqlalchemy>=2.0.0
+
+# Visualisation
+matplotlib>=3.7.0
+seaborn>=0.13.0
+plotly>=5.18.0
+
+# Dashboard
+streamlit>=1.32.0
+
+# Notebooks
+jupyter>=1.0.0
+ipykernel>=6.25.0
+
+# HTTP requests (live NAV fetch)
+requests>=2.31.0
+
+# PPTX generation (D7)
+python-pptx>=0.6.23
+
+# Optional: schedule ETL cron (B1)
+# schedule>=1.2.0
