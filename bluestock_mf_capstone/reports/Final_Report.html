@@ -1,645 +1,1597 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>BlueStock MF Capstone — Final Report</title>
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Merriweather:wght@400;700&display=swap');
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BlueStock MF Capstone — Final Report</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Merriweather:wght@400;700&display=swap');
 
-  :root {
-    --primary: #1e3a8a;
-    --secondary: #0d9488;
-    --accent: #f59e0b;
-    --danger: #dc2626;
-    --dark: #0f172a;
-    --mid: #475569;
-    --light: #f1f5f9;
-    --white: #ffffff;
-    --border: #e2e8f0;
-  }
+    :root {
+      --primary: #1e3a8a;
+      --secondary: #0d9488;
+      --accent: #f59e0b;
+      --danger: #dc2626;
+      --dark: #0f172a;
+      --mid: #475569;
+      --light: #f1f5f9;
+      --white: #ffffff;
+      --border: #e2e8f0;
+    }
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-  body {
-    font-family: 'Inter', sans-serif;
-    font-size: 14px;
-    color: var(--dark);
-    background: #f8fafc;
-    line-height: 1.7;
-  }
+    body {
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      color: var(--dark);
+      background: #f8fafc;
+      line-height: 1.7;
+    }
 
-  /* ── Cover Page ── */
-  .cover {
-    background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 60%, #0d9488 100%);
-    color: white;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    padding: 60px 40px;
-    page-break-after: always;
-  }
-  .cover-logo { font-size: 48px; margin-bottom: 20px; }
-  .cover h1 { font-family: 'Merriweather', serif; font-size: 38px; font-weight: 700; margin-bottom: 12px; line-height: 1.3; }
-  .cover h2 { font-size: 20px; font-weight: 400; opacity: 0.85; margin-bottom: 40px; }
-  .cover-meta { background: rgba(255,255,255,0.12); border-radius: 12px; padding: 24px 40px; display: inline-block; }
-  .cover-meta p { margin: 4px 0; font-size: 15px; }
-  .cover-tag { background: var(--accent); color: var(--dark); padding: 4px 14px; border-radius: 20px; font-weight: 700; font-size: 12px; display: inline-block; margin-top: 20px; }
+    /* ── Cover Page ── */
+    .cover {
+      background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 60%, #0d9488 100%);
+      color: white;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 60px 40px;
+      page-break-after: always;
+    }
 
-  /* ── Page Layout ── */
-  .page { max-width: 900px; margin: 0 auto; padding: 50px 60px; }
-  .page-break { page-break-before: always; padding-top: 50px; }
+    .cover-logo {
+      font-size: 48px;
+      margin-bottom: 20px;
+    }
 
-  /* ── Section Headers ── */
-  h1.section { font-family: 'Merriweather', serif; font-size: 28px; color: var(--primary); border-bottom: 3px solid var(--primary); padding-bottom: 10px; margin-bottom: 28px; }
-  h2.sub { font-size: 18px; font-weight: 700; color: var(--dark); margin: 28px 0 12px; }
-  h3.sub2 { font-size: 15px; font-weight: 600; color: var(--mid); margin: 16px 0 8px; }
+    .cover h1 {
+      font-family: 'Merriweather', serif;
+      font-size: 38px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      line-height: 1.3;
+    }
 
-  /* ── TOC ── */
-  .toc { background: var(--light); border-left: 4px solid var(--primary); border-radius: 8px; padding: 24px 30px; }
-  .toc-item { display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px dotted var(--border); }
-  .toc-item:last-child { border-bottom: none; }
-  .toc-num { color: var(--primary); font-weight: 600; min-width: 30px; }
-  .toc-pg { color: var(--mid); font-size: 12px; }
+    .cover h2 {
+      font-size: 20px;
+      font-weight: 400;
+      opacity: 0.85;
+      margin-bottom: 40px;
+    }
 
-  /* ── KPI Cards ── */
-  .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin: 24px 0; }
-  .kpi-card { background: white; border: 1px solid var(--border); border-radius: 10px; padding: 20px 16px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
-  .kpi-num { font-size: 28px; font-weight: 800; color: var(--primary); }
-  .kpi-lbl { font-size: 11px; color: var(--mid); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 4px; }
-  .kpi-sub { font-size: 11px; color: var(--secondary); margin-top: 2px; }
+    .cover-meta {
+      background: rgba(255, 255, 255, 0.12);
+      border-radius: 12px;
+      padding: 24px 40px;
+      display: inline-block;
+    }
 
-  /* ── Tables ── */
-  table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 13px; }
-  th { background: var(--primary); color: white; padding: 10px 12px; text-align: left; font-weight: 600; }
-  td { padding: 9px 12px; border-bottom: 1px solid var(--border); }
-  tr:nth-child(even) td { background: var(--light); }
-  tr:hover td { background: #dbeafe; }
-  .badge { padding: 2px 10px; border-radius: 12px; font-size: 11px; font-weight: 600; }
-  .badge-green { background: #dcfce7; color: #16a34a; }
-  .badge-red   { background: #fee2e2; color: #dc2626; }
-  .badge-amber { background: #fef3c7; color: #d97706; }
+    .cover-meta p {
+      margin: 4px 0;
+      font-size: 15px;
+    }
 
-  /* ── Callout Boxes ── */
-  .callout { border-radius: 8px; padding: 16px 20px; margin: 16px 0; }
-  .callout-info    { background: #dbeafe; border-left: 4px solid var(--primary); }
-  .callout-success { background: #dcfce7; border-left: 4px solid #16a34a; }
-  .callout-warn    { background: #fef3c7; border-left: 4px solid var(--accent); }
-  .callout-danger  { background: #fee2e2; border-left: 4px solid var(--danger); }
-  .callout strong  { display: block; margin-bottom: 4px; }
+    .cover-tag {
+      background: var(--accent);
+      color: var(--dark);
+      padding: 4px 14px;
+      border-radius: 20px;
+      font-weight: 700;
+      font-size: 12px;
+      display: inline-block;
+      margin-top: 20px;
+    }
 
-  /* ── Formula Block ── */
-  .formula { background: #0f172a; color: #e2e8f0; font-family: 'Courier New', monospace; padding: 16px 20px; border-radius: 8px; margin: 12px 0; font-size: 13px; overflow-x: auto; }
+    /* ── Page Layout ── */
+    .page {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 50px 60px;
+    }
 
-  /* ── Insight Box ── */
-  .insight { display: flex; gap: 16px; background: white; border: 1px solid var(--border); border-radius: 10px; padding: 18px; margin: 12px 0; }
-  .insight-icon { font-size: 28px; flex-shrink: 0; }
-  .insight-body strong { display: block; margin-bottom: 4px; color: var(--primary); }
+    .page-break {
+      page-break-before: always;
+      padding-top: 50px;
+    }
 
-  /* ── Progress Bar ── */
-  .progress-row { display: flex; align-items: center; gap: 12px; margin: 6px 0; }
-  .progress-label { min-width: 180px; font-size: 13px; }
-  .progress-bar { flex: 1; height: 10px; background: var(--border); border-radius: 5px; overflow: hidden; }
-  .progress-fill { height: 100%; border-radius: 5px; }
-  .progress-val { min-width: 50px; text-align: right; font-size: 12px; font-weight: 600; }
+    /* ── Section Headers ── */
+    h1.section {
+      font-family: 'Merriweather', serif;
+      font-size: 28px;
+      color: var(--primary);
+      border-bottom: 3px solid var(--primary);
+      padding-bottom: 10px;
+      margin-bottom: 28px;
+    }
 
-  /* ── Footer ── */
-  footer { margin-top: 60px; border-top: 1px solid var(--border); padding-top: 20px; text-align: center; color: var(--mid); font-size: 12px; }
+    h2.sub {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--dark);
+      margin: 28px 0 12px;
+    }
 
-  /* ── Print ── */
-  @media print {
-    .cover { page-break-after: always; }
-    .page-break { page-break-before: always; }
-    body { background: white; }
-    .kpi-card { break-inside: avoid; }
-  }
-</style>
+    h3.sub2 {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--mid);
+      margin: 16px 0 8px;
+    }
+
+    /* ── TOC ── */
+    .toc {
+      background: var(--light);
+      border-left: 4px solid var(--primary);
+      border-radius: 8px;
+      padding: 24px 30px;
+    }
+
+    .toc-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 5px 0;
+      border-bottom: 1px dotted var(--border);
+    }
+
+    .toc-item:last-child {
+      border-bottom: none;
+    }
+
+    .toc-num {
+      color: var(--primary);
+      font-weight: 600;
+      min-width: 30px;
+    }
+
+    .toc-pg {
+      color: var(--mid);
+      font-size: 12px;
+    }
+
+    /* ── KPI Cards ── */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin: 24px 0;
+    }
+
+    .kpi-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 20px 16px;
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    }
+
+    .kpi-num {
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--primary);
+    }
+
+    .kpi-lbl {
+      font-size: 11px;
+      color: var(--mid);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-top: 4px;
+    }
+
+    .kpi-sub {
+      font-size: 11px;
+      color: var(--secondary);
+      margin-top: 2px;
+    }
+
+    /* ── Tables ── */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0;
+      font-size: 13px;
+    }
+
+    th {
+      background: var(--primary);
+      color: white;
+      padding: 10px 12px;
+      text-align: left;
+      font-weight: 600;
+    }
+
+    td {
+      padding: 9px 12px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    tr:nth-child(even) td {
+      background: var(--light);
+    }
+
+    tr:hover td {
+      background: #dbeafe;
+    }
+
+    .badge {
+      padding: 2px 10px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .badge-green {
+      background: #dcfce7;
+      color: #16a34a;
+    }
+
+    .badge-red {
+      background: #fee2e2;
+      color: #dc2626;
+    }
+
+    .badge-amber {
+      background: #fef3c7;
+      color: #d97706;
+    }
+
+    /* ── Callout Boxes ── */
+    .callout {
+      border-radius: 8px;
+      padding: 16px 20px;
+      margin: 16px 0;
+    }
+
+    .callout-info {
+      background: #dbeafe;
+      border-left: 4px solid var(--primary);
+    }
+
+    .callout-success {
+      background: #dcfce7;
+      border-left: 4px solid #16a34a;
+    }
+
+    .callout-warn {
+      background: #fef3c7;
+      border-left: 4px solid var(--accent);
+    }
+
+    .callout-danger {
+      background: #fee2e2;
+      border-left: 4px solid var(--danger);
+    }
+
+    .callout strong {
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    /* ── Formula Block ── */
+    .formula {
+      background: #0f172a;
+      color: #e2e8f0;
+      font-family: 'Courier New', monospace;
+      padding: 16px 20px;
+      border-radius: 8px;
+      margin: 12px 0;
+      font-size: 13px;
+      overflow-x: auto;
+    }
+
+    /* ── Insight Box ── */
+    .insight {
+      display: flex;
+      gap: 16px;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 18px;
+      margin: 12px 0;
+    }
+
+    .insight-icon {
+      font-size: 28px;
+      flex-shrink: 0;
+    }
+
+    .insight-body strong {
+      display: block;
+      margin-bottom: 4px;
+      color: var(--primary);
+    }
+
+    /* ── Progress Bar ── */
+    .progress-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 6px 0;
+    }
+
+    .progress-label {
+      min-width: 180px;
+      font-size: 13px;
+    }
+
+    .progress-bar {
+      flex: 1;
+      height: 10px;
+      background: var(--border);
+      border-radius: 5px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      border-radius: 5px;
+    }
+
+    .progress-val {
+      min-width: 50px;
+      text-align: right;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    /* ── Footer ── */
+    footer {
+      margin-top: 60px;
+      border-top: 1px solid var(--border);
+      padding-top: 20px;
+      text-align: center;
+      color: var(--mid);
+      font-size: 12px;
+    }
+
+    /* ── Print ── */
+    @media print {
+      .cover {
+        page-break-after: always;
+      }
+
+      .page-break {
+        page-break-before: always;
+      }
+
+      body {
+        background: white;
+      }
+
+      .kpi-card {
+        break-inside: avoid;
+      }
+    }
+  </style>
 </head>
+
 <body>
 
-<!-- ═══════════════════ COVER PAGE ═══════════════════ -->
-<div class="cover">
-  <div class="cover-logo">📊</div>
-  <h1>Mutual Fund Industry Analytics<br/>Capstone Project I</h1>
-  <h2>BlueStock Fintech Internship — Batch 2026</h2>
-  <div class="cover-meta">
-    <p><strong>Submitted by:</strong> Sai Sindhuja Ch · Sarvesh K Yadav · Ganga Damalathi</p>
-    <p><strong>Mentor:</strong> BlueStock Analytics Team</p>
-    <p><strong>Submission Date:</strong> July 10, 2026</p>
-    <p><strong>Data Coverage:</strong> Jan 2020 – May 2025</p>
+  <!-- ═══════════════════ COVER PAGE ═══════════════════ -->
+  <div class="cover">
+    <div class="cover-logo">📊</div>
+    <h1>Mutual Fund Industry Analytics<br />Capstone Project I</h1>
+    <h2>BlueStock Fintech Internship — Batch 2026</h2>
+    <div class="cover-meta">
+      <p><strong>Submitted by:</strong> Sarvesh Kumar Yadav </p>
+      <p><strong>Mentor:</strong> BlueStock Analytics Team</p>
+      <p><strong>Submission Date:</strong> July 10, 2026</p>
+      <p><strong>Data Coverage:</strong> Jan 2020 – May 2025</p>
+    </div>
+    <span class="cover-tag">CONFIDENTIAL — INTERNSHIP SUBMISSION</span>
   </div>
-  <span class="cover-tag">CONFIDENTIAL — INTERNSHIP SUBMISSION</span>
-</div>
 
-<!-- ═══════════════════ PAGE 1 — TABLE OF CONTENTS ═══════════════════ -->
-<div class="page">
-  <h1 class="section">Table of Contents</h1>
-  <div class="toc">
-    <div class="toc-item"><span class="toc-num">1.</span><span>Executive Summary</span><span class="toc-pg">p. 3</span></div>
-    <div class="toc-item"><span class="toc-num">2.</span><span>Project Overview & Scope</span><span class="toc-pg">p. 3</span></div>
-    <div class="toc-item"><span class="toc-num">3.</span><span>Data Architecture & ETL Pipeline</span><span class="toc-pg">p. 4</span></div>
-    <div class="toc-item"><span class="toc-num">4.</span><span>Exploratory Data Analysis (EDA)</span><span class="toc-pg">p. 5</span></div>
-    <div class="toc-item"><span class="toc-num">5.</span><span>Fund Performance Analytics</span><span class="toc-pg">p. 6</span></div>
-    <div class="toc-item"><span class="toc-num">6.</span><span>Advanced Risk Analytics</span><span class="toc-pg">p. 8</span></div>
-    <div class="toc-item"><span class="toc-num">7.</span><span>Investor Behaviour Analysis</span><span class="toc-pg">p. 9</span></div>
-    <div class="toc-item"><span class="toc-num">8.</span><span>Monte Carlo Simulation (B3)</span><span class="toc-pg">p. 10</span></div>
-    <div class="toc-item"><span class="toc-num">9.</span><span>Markowitz Efficient Frontier (B4)</span><span class="toc-pg">p. 11</span></div>
-    <div class="toc-item"><span class="toc-num">10.</span><span>Dashboard & Visualisations (B2)</span><span class="toc-pg">p. 12</span></div>
-    <div class="toc-item"><span class="toc-num">11.</span><span>Strategic Recommendations</span><span class="toc-pg">p. 13</span></div>
-    <div class="toc-item"><span class="toc-num">A.</span><span>Appendix — Data Dictionary & Schema</span><span class="toc-pg">p. 14</span></div>
-  </div>
-</div>
-
-<!-- ═══════════════════ SECTION 1 — EXECUTIVE SUMMARY ═══════════════════ -->
-<div class="page page-break">
-  <h1 class="section">1. Executive Summary</h1>
-  <p>This report presents a comprehensive end-to-end analytics study of the Indian Mutual Fund industry using data spanning <strong>January 2020 to May 2025</strong>. Covering <strong>40 mutual fund schemes</strong> across equity, debt, and hybrid categories from India's leading Asset Management Companies (AMCs), the project delivers actionable insights for fund selection, portfolio optimisation, and investor engagement strategy.</p>
-
-  <div class="kpi-grid">
-    <div class="kpi-card">
-      <div class="kpi-num">40</div>
-      <div class="kpi-lbl">Mutual Fund Schemes</div>
-      <div class="kpi-sub">10 AMCs covered</div>
-    </div>
-    <div class="kpi-card">
-      <div class="kpi-num">₹67.2L Cr</div>
-      <div class="kpi-lbl">Industry AUM</div>
-      <div class="kpi-sub">As of May 2025</div>
-    </div>
-    <div class="kpi-card">
-      <div class="kpi-num">10,000+</div>
-      <div class="kpi-lbl">Investors Analysed</div>
-      <div class="kpi-sub">Across 5 cohorts</div>
-    </div>
-    <div class="kpi-card">
-      <div class="kpi-num">5</div>
-      <div class="kpi-lbl">Years of NAV Data</div>
-      <div class="kpi-sub">~1,260 trading days</div>
+  <!-- ═══════════════════ PAGE 1 — TABLE OF CONTENTS ═══════════════════ -->
+  <div class="page">
+    <h1 class="section">Table of Contents</h1>
+    <div class="toc">
+      <div class="toc-item"><span class="toc-num">1.</span><span>Executive Summary</span><span class="toc-pg">p.
+          3</span></div>
+      <div class="toc-item"><span class="toc-num">2.</span><span>Project Overview & Scope</span><span class="toc-pg">p.
+          3</span></div>
+      <div class="toc-item"><span class="toc-num">3.</span><span>Data Architecture & ETL Pipeline</span><span
+          class="toc-pg">p. 4</span></div>
+      <div class="toc-item"><span class="toc-num">4.</span><span>Exploratory Data Analysis (EDA)</span><span
+          class="toc-pg">p. 5</span></div>
+      <div class="toc-item"><span class="toc-num">5.</span><span>Fund Performance Analytics</span><span
+          class="toc-pg">p. 6</span></div>
+      <div class="toc-item"><span class="toc-num">6.</span><span>Advanced Risk Analytics</span><span class="toc-pg">p.
+          8</span></div>
+      <div class="toc-item"><span class="toc-num">7.</span><span>Investor Behaviour Analysis</span><span
+          class="toc-pg">p. 9</span></div>
+      <div class="toc-item"><span class="toc-num">8.</span><span>Monte Carlo Simulation (B3)</span><span
+          class="toc-pg">p. 10</span></div>
+      <div class="toc-item"><span class="toc-num">9.</span><span>Markowitz Efficient Frontier (B4)</span><span
+          class="toc-pg">p. 11</span></div>
+      <div class="toc-item"><span class="toc-num">10.</span><span>Dashboard & Visualisations (B2)</span><span
+          class="toc-pg">p. 12</span></div>
+      <div class="toc-item"><span class="toc-num">11.</span><span>Strategic Recommendations</span><span
+          class="toc-pg">p. 13</span></div>
+      <div class="toc-item"><span class="toc-num">A.</span><span>Appendix — Data Dictionary & Schema</span><span
+          class="toc-pg">p. 14</span></div>
     </div>
   </div>
 
-  <div class="callout callout-success">
-    <strong>🏆 Key Achievement</strong>
-    All 7 graded deliverables (D1–D7) and 3 bonus challenges (B2, B3, B4) were completed.
-    The ETL pipeline processes all 10 datasets in under 60 seconds with full error handling.
-  </div>
+  <!-- ═══════════════════ SECTION 1 — EXECUTIVE SUMMARY ═══════════════════ -->
+  <div class="page page-break">
+    <h1 class="section">1. Executive Summary</h1>
+    <p>This report presents a comprehensive end-to-end analytics study of the Indian Mutual Fund industry using data
+      spanning <strong>January 2020 to May 2025</strong>. Covering <strong>40 mutual fund schemes</strong> across
+      equity, debt, and hybrid categories from India's leading Asset Management Companies (AMCs), the project delivers
+      actionable insights for fund selection, portfolio optimisation, and investor engagement strategy.</p>
 
-  <h2 class="sub">Top 3 Findings</h2>
-  <div class="insight">
-    <span class="insight-icon">📈</span>
-    <div class="insight-body">
-      <strong>Equity funds delivered superior 5-year CAGR</strong>
-      SBI Small Cap Fund (Direct) achieved the highest 5-year CAGR at 28.4%, while HDFC Top 100 delivered a risk-adjusted Sharpe ratio of 1.42 — the best among large-cap funds.
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-num">40</div>
+        <div class="kpi-lbl">Mutual Fund Schemes</div>
+        <div class="kpi-sub">10 AMCs covered</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-num">₹67.2L Cr</div>
+        <div class="kpi-lbl">Industry AUM</div>
+        <div class="kpi-sub">As of May 2025</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-num">10,000+</div>
+        <div class="kpi-lbl">Investors Analysed</div>
+        <div class="kpi-sub">Across 5 cohorts</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-num">5</div>
+        <div class="kpi-lbl">Years of NAV Data</div>
+        <div class="kpi-sub">~1,260 trading days</div>
+      </div>
     </div>
-  </div>
-  <div class="insight">
-    <span class="insight-icon">⚠️</span>
-    <div class="insight-body">
-      <strong>97.8% of frequent SIP investors are "at-risk"</strong>
-      Of 1,362 investors with 6+ SIP transactions, 1,332 have irregular contribution patterns (avg gap > 35 days), revealing a systemic engagement gap.
+
+    <div class="callout callout-success">
+      <strong>🏆 Key Achievement</strong>
+      All 7 graded deliverables (D1–D7) and 3 bonus challenges (B2, B3, B4) were completed.
+      The ETL pipeline processes all 10 datasets in under 60 seconds with full error handling.
     </div>
-  </div>
-  <div class="insight">
-    <span class="insight-icon">🎯</span>
-    <div class="insight-body">
-      <strong>Markowitz optimisation improves Sharpe by ~22%</strong>
-      The Maximum Sharpe Portfolio (2–3 fund concentration) outperforms naive equal-weight allocation with a Sharpe ratio improvement from ~0.91 to ~1.11.
+
+    <h2 class="sub">Top 3 Findings</h2>
+    <div class="insight">
+      <span class="insight-icon">📈</span>
+      <div class="insight-body">
+        <strong>Equity funds delivered superior 5-year CAGR</strong>
+        SBI Small Cap Fund (Direct) achieved the highest 5-year CAGR at 28.4%, while HDFC Top 100 delivered a
+        risk-adjusted Sharpe ratio of 1.42 — the best among large-cap funds.
+      </div>
     </div>
-  </div>
-</div>
-
-<!-- ═══════════════════ SECTION 2 — PROJECT OVERVIEW ═══════════════════ -->
-<div class="page page-break">
-  <h1 class="section">2. Project Overview & Scope</h1>
-
-  <h2 class="sub">2.1 Objectives</h2>
-  <ul style="margin-left:20px; line-height:2.2">
-    <li>Build an automated ETL pipeline to ingest, clean, and store 10 mutual fund datasets</li>
-    <li>Conduct in-depth EDA to uncover market trends and fund characteristics</li>
-    <li>Compute SEBI-standard performance metrics (CAGR, Sharpe, Beta, Alpha, VaR)</li>
-    <li>Develop an interactive analytics dashboard for fund comparison</li>
-    <li>Provide quantitative portfolio optimisation using Markowitz theory</li>
-    <li>Project 5-year NAV growth using Monte Carlo simulation</li>
-  </ul>
-
-  <h2 class="sub">2.2 Datasets Used</h2>
-  <table>
-    <tr><th>#</th><th>Dataset</th><th>Rows</th><th>Key Fields</th></tr>
-    <tr><td>01</td><td>Fund Master</td><td>40</td><td>amfi_code, scheme_name, category, expense_ratio, risk_grade</td></tr>
-    <tr><td>02</td><td>NAV History</td><td>~50,000</td><td>amfi_code, date, nav</td></tr>
-    <tr><td>03</td><td>AUM by Fund House</td><td>180</td><td>fund_house, date, aum_lakh_crore</td></tr>
-    <tr><td>04</td><td>Monthly SIP Inflows</td><td>60</td><td>month, sip_inflow_crore, active_sip_accounts</td></tr>
-    <tr><td>05</td><td>Category Inflows</td><td>~300</td><td>month, category, net_inflow_crore</td></tr>
-    <tr><td>06</td><td>Industry Folio Count</td><td>60</td><td>month, total_folios_crore, equity_folios_crore</td></tr>
-    <tr><td>07</td><td>Scheme Performance</td><td>40</td><td>return_1yr, return_3yr, sharpe_ratio, alpha, beta</td></tr>
-    <tr><td>08</td><td>Investor Transactions</td><td>~100,000</td><td>investor_id, transaction_type, amount_inr, state</td></tr>
-    <tr><td>09</td><td>Portfolio Holdings</td><td>~500</td><td>amfi_code, stock_symbol, sector, weight_pct</td></tr>
-    <tr><td>10</td><td>Benchmark Indices</td><td>~6,000</td><td>date, index_name, close_value</td></tr>
-  </table>
-
-  <h2 class="sub">2.3 Technology Stack</h2>
-  <table>
-    <tr><th>Layer</th><th>Technology</th><th>Purpose</th></tr>
-    <tr><td>Language</td><td>Python 3.11</td><td>All data processing, analytics, scripting</td></tr>
-    <tr><td>Data</td><td>Pandas 2.x, NumPy</td><td>DataFrame operations, vectorised maths</td></tr>
-    <tr><td>Database</td><td>SQLite + SQLAlchemy</td><td>Persistent star schema storage</td></tr>
-    <tr><td>Visualisation</td><td>Matplotlib, Seaborn, Plotly</td><td>Static charts, interactive plots</td></tr>
-    <tr><td>Dashboard</td><td>Streamlit + Plotly</td><td>Interactive web dashboard (B2)</td></tr>
-    <tr><td>Optimisation</td><td>SciPy</td><td>Markowitz portfolio optimisation (B4)</td></tr>
-    <tr><td>Notebooks</td><td>Jupyter</td><td>EDA, analytics, presentation</td></tr>
-  </table>
-</div>
-
-<!-- ═══════════════════ SECTION 3 — ETL PIPELINE ═══════════════════ -->
-<div class="page page-break">
-  <h1 class="section">3. Data Architecture & ETL Pipeline (D1 + D2)</h1>
-
-  <h2 class="sub">3.1 Pipeline Architecture</h2>
-  <div class="callout callout-info">
-    <strong>📌 Design Principle</strong>
-    Zero hard-coded absolute paths. All paths are constructed relative to the project root using <code>pathlib.Path(__file__).resolve().parent.parent</code>.
-  </div>
-
-  <p>The unified ETL pipeline (<code>scripts/etl_pipeline.py</code>) processes all 10 datasets in 4 sequential stages:</p>
-
-  <table>
-    <tr><th>Stage</th><th>Steps</th><th>Output</th></tr>
-    <tr><td><strong>Extract</strong></td><td>Validate 10 CSV files exist; read with <code>low_memory=False</code></td><td>Raw DataFrames in memory</td></tr>
-    <tr><td><strong>Transform</strong></td><td>Date parsing, numeric coercion, deduplication, NAV ffill for weekends/holidays</td><td>Cleaned DataFrames → CSV</td></tr>
-    <tr><td><strong>Load</strong></td><td>Build dim_date; load all 11 SQLite tables via SQLAlchemy</td><td><code>bluestock_mf.db</code></td></tr>
-    <tr><td><strong>Report</strong></td><td>Write data quality summary with null%, dup counts, AMFI validation</td><td><code>reports/data_quality_report.txt</code></td></tr>
-  </table>
-
-  <h2 class="sub">3.2 NAV Weekend/Holiday Handling</h2>
-  <div class="formula">
-# Reindex each fund's NAV to full business-day calendar, then ffill
-full_range = pd.date_range(start=min_date, end=max_date, freq="B")
-grp = grp.set_index("date")[["nav"]].reindex(full_range)
-grp["nav"] = grp["nav"].ffill()   # carries last known NAV through weekends
-grp["nav"] = grp["nav"].bfill()   # handles any leading NaNs
-  </div>
-
-  <h2 class="sub">3.3 Database Schema (Star Schema)</h2>
-  <table>
-    <tr><th>Table</th><th>Type</th><th>Rows (approx.)</th><th>Primary Key</th></tr>
-    <tr><td>dim_fund</td><td>Dimension</td><td>40</td><td>amfi_code</td></tr>
-    <tr><td>dim_date</td><td>Dimension</td><td>~2,000</td><td>date</td></tr>
-    <tr><td>fact_nav</td><td>Fact</td><td>~50,000</td><td>(amfi_code, date)</td></tr>
-    <tr><td>fact_transactions</td><td>Fact</td><td>~100,000</td><td>transaction_id</td></tr>
-    <tr><td>fact_performance</td><td>Fact</td><td>40</td><td>amfi_code</td></tr>
-    <tr><td>fact_aum</td><td>Fact</td><td>180</td><td>(date, fund_house)</td></tr>
-    <tr><td>fact_portfolio_holdings</td><td>Fact</td><td>~500</td><td>(amfi_code, stock, date)</td></tr>
-    <tr><td>fact_benchmark_indices</td><td>Fact</td><td>~6,000</td><td>(date, index_name)</td></tr>
-    <tr><td>fact_monthly_sip_inflows</td><td>Fact</td><td>60</td><td>month</td></tr>
-    <tr><td>fact_category_inflows</td><td>Fact</td><td>~300</td><td>(month, category)</td></tr>
-    <tr><td>fact_industry_folio_count</td><td>Fact</td><td>60</td><td>month</td></tr>
-  </table>
-</div>
-
-<!-- ═══════════════════ SECTION 4 — EDA ═══════════════════ -->
-<div class="page page-break">
-  <h1 class="section">4. Exploratory Data Analysis (D3)</h1>
-
-  <h2 class="sub">4.1 Fund Universe</h2>
-  <div class="kpi-grid">
-    <div class="kpi-card"><div class="kpi-num">40</div><div class="kpi-lbl">Total Schemes</div></div>
-    <div class="kpi-card"><div class="kpi-num">10</div><div class="kpi-lbl">AMCs</div></div>
-    <div class="kpi-card"><div class="kpi-num">3</div><div class="kpi-lbl">Categories</div><div class="kpi-sub">Equity / Debt / Hybrid</div></div>
-    <div class="kpi-card"><div class="kpi-num">5</div><div class="kpi-lbl">Risk Grades</div><div class="kpi-sub">Low → Very High</div></div>
-  </div>
-
-  <h2 class="sub">4.2 AUM Distribution by Category</h2>
-  <div class="progress-row">
-    <span class="progress-label">Equity</span>
-    <div class="progress-bar"><div class="progress-fill" style="width:58%;background:#1e3a8a;"></div></div>
-    <span class="progress-val">58%</span>
-  </div>
-  <div class="progress-row">
-    <span class="progress-label">Debt</span>
-    <div class="progress-bar"><div class="progress-fill" style="width:28%;background:#0d9488;"></div></div>
-    <span class="progress-val">28%</span>
-  </div>
-  <div class="progress-row">
-    <span class="progress-label">Hybrid</span>
-    <div class="progress-bar"><div class="progress-fill" style="width:14%;background:#8b5cf6;"></div></div>
-    <span class="progress-val">14%</span>
-  </div>
-
-  <h2 class="sub">4.3 SIP Industry Trends (2020–2025)</h2>
-  <table>
-    <tr><th>Period</th><th>Monthly SIP Inflow (₹ Cr)</th><th>Active Accounts (Cr)</th><th>YoY Growth</th></tr>
-    <tr><td>FY2020–21</td><td>7,300</td><td>3.60</td><td>–</td></tr>
-    <tr><td>FY2021–22</td><td>9,200</td><td>4.87</td><td><span class="badge badge-green">+26.0%</span></td></tr>
-    <tr><td>FY2022–23</td><td>12,800</td><td>6.28</td><td><span class="badge badge-green">+39.1%</span></td></tr>
-    <tr><td>FY2023–24</td><td>17,600</td><td>8.10</td><td><span class="badge badge-green">+37.5%</span></td></tr>
-    <tr><td>FY2024–25</td><td>21,400</td><td>10.10</td><td><span class="badge badge-green">+21.6%</span></td></tr>
-  </table>
-
-  <div class="callout callout-info">
-    <strong>💡 Key Insight</strong>
-    Monthly SIP inflows grew nearly 3× over 5 years (₹7,300 Cr → ₹21,400 Cr), driven by increased retail investor awareness post-COVID and smartphone-led digital onboarding.
-  </div>
-
-  <h2 class="sub">4.4 Geographic Distribution of Investors</h2>
-  <p>Investor transactions are dominated by <strong>Tier-1 cities</strong> (Mumbai, Delhi, Bengaluru, Hyderabad, Chennai) accounting for 68% of total invested capital. Tier-2 cities (Pune, Ahmedabad, Surat, Jaipur) contributed 22%, with Tier-3 markets at 10%.</p>
-</div>
-
-<!-- ═══════════════════ SECTION 5 — PERFORMANCE ANALYTICS ═══════════════════ -->
-<div class="page page-break">
-  <h1 class="section">5. Fund Performance Analytics (D4)</h1>
-
-  <h2 class="sub">5.1 Methodology — Key Formulas</h2>
-  <div class="formula">
-# CAGR — ALWAYS use trading days (252/year), never calendar days
-CAGR = (NAV_end / NAV_start)^(252 / n_trading_days) - 1
-
-# Sharpe Ratio (annualised daily)
-Sharpe = (mean(r - r_f) / std(r - r_f)) * sqrt(252)
-where r_f = 6.5% / 252  (daily risk-free rate)
-
-# Beta vs. NIFTY 50
-Beta = Cov(r_fund, r_bench) / Var(r_bench)
-
-# Jensen's Alpha (annualised)
-Alpha = r_fund_ann - [r_f_ann + Beta * (r_bench_ann - r_f_ann)]
-
-# Max Drawdown
-MDD = min( (NAV_t - max(NAV_0..NAV_t)) / max(NAV_0..NAV_t) )
-  </div>
-
-  <h2 class="sub">5.2 Top 10 Fund Scorecard</h2>
-  <table>
-    <tr><th>Rank</th><th>Scheme</th><th>Category</th><th>3yr CAGR</th><th>Sharpe</th><th>Beta</th><th>Max DD</th><th>Risk</th></tr>
-    <tr><td>1</td><td>SBI Small Cap Fund – Direct</td><td>Equity</td><td>28.4%</td><td>1.52</td><td>0.82</td><td>–24.1%</td><td><span class="badge badge-red">Very High</span></td></tr>
-    <tr><td>2</td><td>Axis Midcap Fund – Direct</td><td>Equity</td><td>24.7%</td><td>1.38</td><td>0.79</td><td>–21.3%</td><td><span class="badge badge-red">High</span></td></tr>
-    <tr><td>3</td><td>HDFC Top 100 – Direct</td><td>Equity</td><td>21.2%</td><td>1.42</td><td>0.93</td><td>–18.7%</td><td><span class="badge badge-amber">Mod High</span></td></tr>
-    <tr><td>4</td><td>ICICI Pru Bluechip – Direct</td><td>Equity</td><td>20.8%</td><td>1.35</td><td>0.91</td><td>–17.2%</td><td><span class="badge badge-amber">Mod High</span></td></tr>
-    <tr><td>5</td><td>SBI Bluechip – Direct</td><td>Equity</td><td>19.4%</td><td>1.29</td><td>0.88</td><td>–16.9%</td><td><span class="badge badge-amber">Mod High</span></td></tr>
-    <tr><td>6</td><td>Kotak Bluechip – Direct</td><td>Equity</td><td>19.1%</td><td>1.24</td><td>0.90</td><td>–17.5%</td><td><span class="badge badge-amber">Mod High</span></td></tr>
-    <tr><td>7</td><td>Axis Bluechip – Direct</td><td>Equity</td><td>18.6%</td><td>1.21</td><td>0.85</td><td>–16.1%</td><td><span class="badge badge-amber">Moderate</span></td></tr>
-    <tr><td>8</td><td>UTI Mid Cap Fund – Direct</td><td>Equity</td><td>22.3%</td><td>1.19</td><td>0.84</td><td>–22.8%</td><td><span class="badge badge-red">High</span></td></tr>
-    <tr><td>9</td><td>ABSL Liquid Fund</td><td>Debt</td><td>5.2%</td><td>3.21</td><td>0.04</td><td>–0.1%</td><td><span class="badge badge-green">Low</span></td></tr>
-    <tr><td>10</td><td>ICICI Pru Liquid Fund</td><td>Debt</td><td>5.1%</td><td>3.18</td><td>0.03</td><td>–0.1%</td><td><span class="badge badge-green">Low</span></td></tr>
-  </table>
-
-  <div class="callout callout-warn">
-    <strong>⚠️ Observation</strong>
-    Liquid funds achieve the highest Sharpe ratios (3.2+) due to minimal volatility, but their absolute returns (~5%) barely beat inflation. Investors should not equate high Sharpe with high returns.
-  </div>
-
-  <h2 class="sub">5.3 Alpha Generation</h2>
-  <p>Only <strong>12 out of 40 schemes</strong> (30%) generated positive Jensen's Alpha vs. NIFTY 50. Among equity funds, small and mid-cap schemes generated the most consistent alpha, while large-cap funds largely tracked the benchmark with alphas near zero — consistent with the efficient market hypothesis for large caps.</p>
-</div>
-
-<!-- ═══════════════════ SECTION 6 — RISK ANALYTICS ═══════════════════ -->
-<div class="page page-break">
-  <h1 class="section">6. Advanced Risk Analytics (D6)</h1>
-
-  <h2 class="sub">6.1 Historical VaR & CVaR (95%)</h2>
-  <div class="formula">
-95% VaR  = 5th percentile of daily returns
-95% CVaR = Mean of returns below VaR (Expected Shortfall)
-  </div>
-
-  <table>
-    <tr><th>Category</th><th>Representative Fund</th><th>95% VaR (Daily)</th><th>95% CVaR (Daily)</th><th>Risk Level</th></tr>
-    <tr><td>Small Cap</td><td>SBI Small Cap Fund</td><td>–2.69%</td><td>–3.82%</td><td><span class="badge badge-red">Very High</span></td></tr>
-    <tr><td>Mid Cap</td><td>Axis Midcap Fund</td><td>–2.21%</td><td>–3.14%</td><td><span class="badge badge-red">High</span></td></tr>
-    <tr><td>Large Cap</td><td>HDFC Top 100</td><td>–1.74%</td><td>–2.48%</td><td><span class="badge badge-amber">Mod High</span></td></tr>
-    <tr><td>Hybrid</td><td>ICICI Pru Balanced Adv</td><td>–0.92%</td><td>–1.31%</td><td><span class="badge badge-amber">Moderate</span></td></tr>
-    <tr><td>Liquid</td><td>ABSL Liquid Fund</td><td>–0.02%</td><td>–0.03%</td><td><span class="badge badge-green">Very Low</span></td></tr>
-  </table>
-
-  <h2 class="sub">6.2 Sector Concentration — HHI Analysis</h2>
-  <p>The <strong>Herfindahl-Hirschman Index (HHI)</strong> measures sector concentration: HHI = Σ(sector_weight²). Thresholds: >2500 = concentrated, <1500 = diversified.</p>
-
-  <table>
-    <tr><th>Fund</th><th>HHI Score</th><th>Assessment</th><th>Top Sector Bet</th></tr>
-    <tr><td>Axis Bluechip Fund</td><td>2,968</td><td><span class="badge badge-red">Concentrated</span></td><td>Banking/BFSI (38%)</td></tr>
-    <tr><td>SBI Bluechip Fund</td><td>2,541</td><td><span class="badge badge-red">Concentrated</span></td><td>IT + Banking (41%)</td></tr>
-    <tr><td>HDFC Top 100 Fund</td><td>2,312</td><td><span class="badge badge-amber">Moderate</span></td><td>Banking (32%)</td></tr>
-    <tr><td>Axis Midcap Fund</td><td>1,820</td><td><span class="badge badge-amber">Moderate</span></td><td>Consumer Disc. (24%)</td></tr>
-    <tr><td>UTI Mid Cap Fund</td><td>1,240</td><td><span class="badge badge-green">Diversified</span></td><td>Industrials (18%)</td></tr>
-  </table>
-</div>
-
-<!-- ═══════════════════ SECTION 7 — INVESTOR BEHAVIOUR ═══════════════════ -->
-<div class="page page-break">
-  <h1 class="section">7. Investor Behaviour Analysis</h1>
-
-  <h2 class="sub">7.1 Cohort Analysis by First-Transaction Year</h2>
-  <table>
-    <tr><th>Cohort Year</th><th>New Investors</th><th>Avg SIP (₹)</th><th>Total Invested</th><th>Top Fund Choice</th></tr>
-    <tr><td>2020</td><td>312</td><td>₹8,240</td><td>₹28.4 Cr</td><td>ABSL Liquid Fund</td></tr>
-    <tr><td>2021</td><td>891</td><td>₹9,100</td><td>₹86.2 Cr</td><td>Axis Bluechip – Regular</td></tr>
-    <tr><td>2022</td><td>1,847</td><td>₹10,200</td><td>₹198.7 Cr</td><td>HDFC Top 100 – Regular</td></tr>
-    <tr><td>2023</td><td>2,760</td><td>₹10,760</td><td>₹312.4 Cr</td><td>SBI Small Cap – Regular</td></tr>
-    <tr><td>2024</td><td>4,803</td><td>₹10,997</td><td>₹225.8 Cr</td><td>Axis Small Cap – Regular</td></tr>
-    <tr><td>2025*</td><td>197</td><td>₹13,505</td><td>₹19.0 Cr</td><td>Axis Midcap – Regular</td></tr>
-  </table>
-  <p style="font-size:11px;color:var(--mid);">*2025 data through May only.</p>
-
-  <div class="callout callout-success">
-    <strong>📌 Insight</strong>
-    The 2025 cohort, though smallest, has the highest avg SIP amount (₹13,505), suggesting a shift toward more affluent or financially sophisticated new investors.
-  </div>
-
-  <h2 class="sub">7.2 SIP Continuity Analysis</h2>
-  <table>
-    <tr><th>Metric</th><th>Value</th></tr>
-    <tr><td>Investors with 6+ SIP transactions</td><td>1,362</td></tr>
-    <tr><td>Active (avg gap ≤ 35 days)</td><td>30 (2.2%)</td></tr>
-    <tr><td>At-Risk (avg gap > 35 days)</td><td>1,332 (97.8%)</td></tr>
-    <tr><td>Median inter-SIP gap (at-risk investors)</td><td>52 days</td></tr>
-  </table>
-
-  <div class="callout callout-danger">
-    <strong>🚨 Critical Finding</strong>
-    A 97.8% at-risk SIP churn rate suggests that most investors miss or delay monthly SIPs. This could be due to mandate setup failures, payment method issues, or behavioural lapses. Targeted nudge campaigns (SMS/email reminders) could substantially improve SIP continuity and long-term AUM growth.
-  </div>
-</div>
-
-<!-- ═══════════════════ SECTION 8 — MONTE CARLO ═══════════════════ -->
-<div class="page page-break">
-  <h1 class="section">8. Monte Carlo Simulation — 5-Year Projection (B3)</h1>
-
-  <h2 class="sub">8.1 Methodology</h2>
-  <p>We model NAV growth using <strong>Geometric Brownian Motion (GBM)</strong>, a standard financial model assuming log-normally distributed returns:</p>
-  <div class="formula">
-S_t = S_0 · exp[(μ - ½σ²)·t + σ·√t·Z]
-
-where:
-  S_0 = last known NAV
-  μ   = mean daily return (computed from 5-year history)
-  σ   = daily std deviation
-  Z   ~ N(0, 1) random shocks (1,000 simulated paths)
-  t   = 1,260 trading days (5 years × 252)
-  </div>
-
-  <h2 class="sub">8.2 Simulation Results — 5-Year Projected NAV</h2>
-  <table>
-    <tr><th>Fund</th><th>Start NAV (₹)</th><th>P5 Bear (₹)</th><th>P50 Median (₹)</th><th>P95 Bull (₹)</th><th>Expected CAGR</th></tr>
-    <tr><td>SBI Small Cap – Direct</td><td>158.4</td><td>89.2</td><td>312.8</td><td>618.4</td><td>14.6%</td></tr>
-    <tr><td>Axis Midcap – Direct</td><td>98.7</td><td>58.3</td><td>187.4</td><td>356.8</td><td>13.7%</td></tr>
-    <tr><td>HDFC Top 100 – Direct</td><td>892.6</td><td>562.4</td><td>1,624.8</td><td>2,958.3</td><td>12.7%</td></tr>
-    <tr><td>SBI Bluechip – Direct</td><td>74.3</td><td>46.8</td><td>133.2</td><td>238.9</td><td>12.4%</td></tr>
-    <tr><td>ICICI Pru Bluechip – Direct</td><td>102.8</td><td>64.7</td><td>183.6</td><td>327.4</td><td>12.3%</td></tr>
-  </table>
-
-  <div class="callout callout-warn">
-    <strong>⚠️ Interpretation Note</strong>
-    The wide P5–P95 spread (3–4× ratio) for small/mid cap funds reflects genuine uncertainty over 5 years. Investors with < 5-year horizons should not rely on median projections alone — the bear-case scenario is equally plausible.
-  </div>
-</div>
-
-<!-- ═══════════════════ SECTION 9 — EFFICIENT FRONTIER ═══════════════════ -->
-<div class="page page-break">
-  <h1 class="section">9. Markowitz Efficient Frontier (B4)</h1>
-
-  <h2 class="sub">9.1 Methodology</h2>
-  <p>Portfolio optimisation across 5 equity funds using <strong>Modern Portfolio Theory (MPT)</strong>. Two optimal portfolios were identified:</p>
-  <ul style="margin-left:20px;line-height:2.2">
-    <li><strong>Minimum Variance Portfolio (MVP)</strong>: Minimises σ_p subject to Σw=1, w≥0</li>
-    <li><strong>Maximum Sharpe Portfolio (MSP)</strong>: Maximises (r_p − r_f) / σ_p</li>
-  </ul>
-  <div class="formula">
-Portfolio metrics (annualised):
-  r_p = wᵀ·μ           (portfolio return)
-  σ_p = √(wᵀ·Σ·w)     (portfolio volatility)
-  Sharpe = (r_p − r_f) / σ_p   where r_f = 6.5%
-  </div>
-
-  <h2 class="sub">9.2 Optimal Portfolio Weights</h2>
-  <table>
-    <tr><th>Fund</th><th>Min Variance Weight</th><th>Max Sharpe Weight</th></tr>
-    <tr><td>SBI Small Cap – Direct</td><td>4.2%</td><td>18.7%</td></tr>
-    <tr><td>Axis Midcap – Direct</td><td>8.6%</td><td>31.4%</td></tr>
-    <tr><td>HDFC Top 100 – Direct</td><td>42.3%</td><td>28.9%</td></tr>
-    <tr><td>SBI Bluechip – Direct</td><td>31.8%</td><td>12.6%</td></tr>
-    <tr><td>ICICI Pru Bluechip – Direct</td><td>13.1%</td><td>8.4%</td></tr>
-  </table>
-
-  <table>
-    <tr><th>Portfolio</th><th>Annual Return</th><th>Annual Volatility</th><th>Sharpe Ratio</th></tr>
-    <tr><td>Minimum Variance Portfolio</td><td>17.8%</td><td>11.2%</td><td>1.01</td></tr>
-    <tr><td>Maximum Sharpe Portfolio</td><td>21.4%</td><td>13.8%</td><td>1.11</td></tr>
-    <tr><td>Equal-Weight (naive)</td><td>19.3%</td><td>14.9%</td><td>0.86</td></tr>
-  </table>
-
-  <div class="callout callout-success">
-    <strong>✅ Key Finding</strong>
-    The Max Sharpe Portfolio achieves a Sharpe ratio 29% higher than naive equal-weight allocation, demonstrating the practical value of MPT-based optimisation for retail investors.
-  </div>
-</div>
-
-<!-- ═══════════════════ SECTION 10 — DASHBOARD ═══════════════════ -->
-<div class="page page-break">
-  <h1 class="section">10. Interactive Dashboard (D5 + B2)</h1>
-
-  <h2 class="sub">10.1 Dashboard Overview</h2>
-  <p>The dashboard (<code>dashboard/app.py</code>) is built with <strong>Streamlit + Plotly</strong> and provides 4 interactive pages with slicers/filters on every page:</p>
-
-  <table>
-    <tr><th>Page</th><th>Title</th><th>Key Visuals</th><th>Slicers</th></tr>
-    <tr><td>1</td><td>Industry Overview</td><td>AUM trend, SIP growth, folio count, category mix</td><td>Year, Category</td></tr>
-    <tr><td>2</td><td>Fund Performance</td><td>Return heatmap, Sharpe leaderboard, alpha/beta scatter</td><td>Fund House, Risk Grade</td></tr>
-    <tr><td>3</td><td>Investor Analytics</td><td>Cohort waterfall, SIP continuity donut, geo map</td><td>Cohort Year, City Tier</td></tr>
-    <tr><td>4</td><td>SIP & Market Trends</td><td>NAV time series, rolling Sharpe, benchmark overlay</td><td>Fund, Date Range</td></tr>
-  </table>
-
-  <div class="callout callout-info">
-    <strong>🚀 How to Run the Dashboard</strong>
-    <code style="font-family:monospace;">cd bluestock_mf_capstone &amp;&amp; streamlit run dashboard/app.py</code>
-    <br/>Opens at <a href="http://localhost:8501">http://localhost:8501</a>
-  </div>
-</div>
-
-<!-- ═══════════════════ SECTION 11 — RECOMMENDATIONS ═══════════════════ -->
-<div class="page page-break">
-  <h1 class="section">11. Strategic Recommendations</h1>
-
-  <div class="insight">
-    <span class="insight-icon">1️⃣</span>
-    <div class="insight-body">
-      <strong>Implement Markowitz-Guided Portfolio Construction</strong>
-      Replace equal-weight default portfolios with the Max Sharpe allocation (Axis Midcap 31% + HDFC Top 100 29% + SBI Small Cap 19%). This improves Sharpe by 29% with comparable returns.
+    <div class="insight">
+      <span class="insight-icon">⚠️</span>
+      <div class="insight-body">
+        <strong>97.8% of frequent SIP investors are "at-risk"</strong>
+        Of 1,362 investors with 6+ SIP transactions, 1,332 have irregular contribution patterns (avg gap > 35 days),
+        revealing a systemic engagement gap.
+      </div>
     </div>
-  </div>
-  <div class="insight">
-    <span class="insight-icon">2️⃣</span>
-    <div class="insight-body">
-      <strong>SIP Continuity Nudge Programme</strong>
-      Launch T+3 day SMS/push notifications for missed SIPs. The 97.8% at-risk rate represents a massive revenue-at-risk; even 20% recovery = ₹50+ Cr in annual SIP inflows.
-    </div>
-  </div>
-  <div class="insight">
-    <span class="insight-icon">3️⃣</span>
-    <div class="insight-body">
-      <strong>Tier-2/3 City Expansion</strong>
-      Tier-3 markets contribute only 10% of invested capital despite growing digitally. Target these markets with lower minimum SIP amounts and vernacular-language education campaigns.
-    </div>
-  </div>
-  <div class="insight">
-    <span class="insight-icon">4️⃣</span>
-    <div class="insight-body">
-      <strong>Risk-Category Mismatch Alert</strong>
-      Cohort analysis shows 2024 first-time investors disproportionately chose Small Cap funds (highest VaR: –2.69%). A suitability check at onboarding aligned to risk tolerance is recommended.
-    </div>
-  </div>
-  <div class="insight">
-    <span class="insight-icon">5️⃣</span>
-    <div class="insight-body">
-      <strong>5-Year Monte Carlo Planning Tool</strong>
-      Integrate the Monte Carlo projections into the investor-facing app to show personalised P5/P50/P95 NAV projections — helps set realistic expectations and reduces premature redemptions.
+    <div class="insight">
+      <span class="insight-icon">🎯</span>
+      <div class="insight-body">
+        <strong>Markowitz optimisation improves Sharpe by ~22%</strong>
+        The Maximum Sharpe Portfolio (2–3 fund concentration) outperforms naive equal-weight allocation with a Sharpe
+        ratio improvement from ~0.91 to ~1.11.
+      </div>
     </div>
   </div>
 
-  <footer>
-    <p><strong>BlueStock Fintech Internship — Capstone Project I</strong></p>
-    <p>Sai Sindhuja Ch · Sarvesh K Yadav · Ganga Damalathi &nbsp;|&nbsp; Batch 2026 &nbsp;|&nbsp; Submitted: July 10, 2026</p>
-    <p style="margin-top:8px;font-size:11px;">This report was generated as part of an academic internship project. All data is from publicly available AMFI sources.</p>
-  </footer>
-</div>
+  <!-- ═══════════════════ SECTION 2 — PROJECT OVERVIEW ═══════════════════ -->
+  <div class="page page-break">
+    <h1 class="section">2. Project Overview & Scope</h1>
 
-<!-- ═══════════════════ APPENDIX ═══════════════════ -->
-<div class="page page-break">
-  <h1 class="section">A. Appendix — Data Dictionary</h1>
+    <h2 class="sub">2.1 Objectives</h2>
+    <ul style="margin-left:20px; line-height:2.2">
+      <li>Build an automated ETL pipeline to ingest, clean, and store 10 mutual fund datasets</li>
+      <li>Conduct in-depth EDA to uncover market trends and fund characteristics</li>
+      <li>Compute SEBI-standard performance metrics (CAGR, Sharpe, Beta, Alpha, VaR)</li>
+      <li>Develop an interactive analytics dashboard for fund comparison</li>
+      <li>Provide quantitative portfolio optimisation using Markowitz theory</li>
+      <li>Project 5-year NAV growth using Monte Carlo simulation</li>
+    </ul>
 
-  <h2 class="sub">A.1 Key Metric Definitions</h2>
-  <table>
-    <tr><th>Metric</th><th>Definition</th><th>Formula</th></tr>
-    <tr><td>CAGR</td><td>Compound Annual Growth Rate using trading days</td><td>(NAV_end/NAV_start)^(252/n_days) − 1</td></tr>
-    <tr><td>Sharpe Ratio</td><td>Risk-adjusted return above risk-free rate</td><td>(r_p − r_f) / σ_p × √252</td></tr>
-    <tr><td>Beta</td><td>Sensitivity of fund to benchmark movements</td><td>Cov(r_fund, r_bench) / Var(r_bench)</td></tr>
-    <tr><td>Alpha</td><td>Excess return above CAPM expectation</td><td>r_fund − [r_f + β(r_m − r_f)]</td></tr>
-    <tr><td>VaR 95%</td><td>Max loss on 95% of trading days</td><td>5th percentile of daily returns</td></tr>
-    <tr><td>CVaR 95%</td><td>Average loss on worst 5% days</td><td>Mean of returns ≤ VaR</td></tr>
-    <tr><td>Max Drawdown</td><td>Worst peak-to-trough decline</td><td>min[(NAV − rolling_max) / rolling_max]</td></tr>
-    <tr><td>HHI</td><td>Herfindahl-Hirschman sector concentration</td><td>Σ(sector_weight²)</td></tr>
-  </table>
+    <h2 class="sub">2.2 Datasets Used</h2>
+    <table>
+      <tr>
+        <th>#</th>
+        <th>Dataset</th>
+        <th>Rows</th>
+        <th>Key Fields</th>
+      </tr>
+      <tr>
+        <td>01</td>
+        <td>Fund Master</td>
+        <td>40</td>
+        <td>amfi_code, scheme_name, category, expense_ratio, risk_grade</td>
+      </tr>
+      <tr>
+        <td>02</td>
+        <td>NAV History</td>
+        <td>~50,000</td>
+        <td>amfi_code, date, nav</td>
+      </tr>
+      <tr>
+        <td>03</td>
+        <td>AUM by Fund House</td>
+        <td>180</td>
+        <td>fund_house, date, aum_lakh_crore</td>
+      </tr>
+      <tr>
+        <td>04</td>
+        <td>Monthly SIP Inflows</td>
+        <td>60</td>
+        <td>month, sip_inflow_crore, active_sip_accounts</td>
+      </tr>
+      <tr>
+        <td>05</td>
+        <td>Category Inflows</td>
+        <td>~300</td>
+        <td>month, category, net_inflow_crore</td>
+      </tr>
+      <tr>
+        <td>06</td>
+        <td>Industry Folio Count</td>
+        <td>60</td>
+        <td>month, total_folios_crore, equity_folios_crore</td>
+      </tr>
+      <tr>
+        <td>07</td>
+        <td>Scheme Performance</td>
+        <td>40</td>
+        <td>return_1yr, return_3yr, sharpe_ratio, alpha, beta</td>
+      </tr>
+      <tr>
+        <td>08</td>
+        <td>Investor Transactions</td>
+        <td>~100,000</td>
+        <td>investor_id, transaction_type, amount_inr, state</td>
+      </tr>
+      <tr>
+        <td>09</td>
+        <td>Portfolio Holdings</td>
+        <td>~500</td>
+        <td>amfi_code, stock_symbol, sector, weight_pct</td>
+      </tr>
+      <tr>
+        <td>10</td>
+        <td>Benchmark Indices</td>
+        <td>~6,000</td>
+        <td>date, index_name, close_value</td>
+      </tr>
+    </table>
 
-  <h2 class="sub">A.2 Deliverables Checklist</h2>
-  <table>
-    <tr><th>ID</th><th>Deliverable</th><th>File</th><th>Weight</th><th>Status</th></tr>
-    <tr><td>D1</td><td>ETL Pipeline</td><td>scripts/etl_pipeline.py</td><td>15%</td><td><span class="badge badge-green">✓ Complete</span></td></tr>
-    <tr><td>D2</td><td>SQLite Database</td><td>data/db/bluestock_mf.db</td><td>10%</td><td><span class="badge badge-green">✓ Complete</span></td></tr>
-    <tr><td>D3</td><td>EDA Notebook</td><td>notebooks/03_eda_analysis.ipynb</td><td>15%</td><td><span class="badge badge-green">✓ Complete</span></td></tr>
-    <tr><td>D4</td><td>Performance Metrics</td><td>notebooks/04_performance_analytics.ipynb</td><td>15%</td><td><span class="badge badge-green">✓ Complete</span></td></tr>
-    <tr><td>D5</td><td>Interactive Dashboard</td><td>dashboard/app.py + .pbix</td><td>20%</td><td><span class="badge badge-green">✓ Complete</span></td></tr>
-    <tr><td>D6</td><td>Advanced Analytics</td><td>notebooks/05_advanced_analytics.ipynb</td><td>10%</td><td><span class="badge badge-green">✓ Complete</span></td></tr>
-    <tr><td>D7</td><td>Final Report + Slides</td><td>reports/Final_Report.html + .pptx</td><td>15%</td><td><span class="badge badge-green">✓ Complete</span></td></tr>
-    <tr><td>B2</td><td>Streamlit Dashboard</td><td>dashboard/app.py</td><td>+10</td><td><span class="badge badge-green">✓ Complete</span></td></tr>
-    <tr><td>B3</td><td>Monte Carlo Simulation</td><td>notebooks/05_advanced_analytics.ipynb §7</td><td>+10</td><td><span class="badge badge-green">✓ Complete</span></td></tr>
-    <tr><td>B4</td><td>Markowitz Efficient Frontier</td><td>notebooks/05_advanced_analytics.ipynb §8</td><td>+10</td><td><span class="badge badge-green">✓ Complete</span></td></tr>
-  </table>
+    <h2 class="sub">2.3 Technology Stack</h2>
+    <table>
+      <tr>
+        <th>Layer</th>
+        <th>Technology</th>
+        <th>Purpose</th>
+      </tr>
+      <tr>
+        <td>Language</td>
+        <td>Python 3.11</td>
+        <td>All data processing, analytics, scripting</td>
+      </tr>
+      <tr>
+        <td>Data</td>
+        <td>Pandas 2.x, NumPy</td>
+        <td>DataFrame operations, vectorised maths</td>
+      </tr>
+      <tr>
+        <td>Database</td>
+        <td>SQLite + SQLAlchemy</td>
+        <td>Persistent star schema storage</td>
+      </tr>
+      <tr>
+        <td>Visualisation</td>
+        <td>Matplotlib, Seaborn, Plotly</td>
+        <td>Static charts, interactive plots</td>
+      </tr>
+      <tr>
+        <td>Dashboard</td>
+        <td>Streamlit + Plotly</td>
+        <td>Interactive web dashboard (B2)</td>
+      </tr>
+      <tr>
+        <td>Optimisation</td>
+        <td>SciPy</td>
+        <td>Markowitz portfolio optimisation (B4)</td>
+      </tr>
+      <tr>
+        <td>Notebooks</td>
+        <td>Jupyter</td>
+        <td>EDA, analytics, presentation</td>
+      </tr>
+    </table>
+  </div>
 
-  <footer>
-    <p>BlueStock Fintech Internship — Capstone Project I &nbsp;|&nbsp; Final Report v1.0 &nbsp;|&nbsp; July 10, 2026</p>
-  </footer>
-</div>
+  <!-- ═══════════════════ SECTION 3 — ETL PIPELINE ═══════════════════ -->
+  <div class="page page-break">
+    <h1 class="section">3. Data Architecture & ETL Pipeline (D1 + D2)</h1>
+
+    <h2 class="sub">3.1 Pipeline Architecture</h2>
+    <div class="callout callout-info">
+      <strong>📌 Design Principle</strong>
+      Zero hard-coded absolute paths. All paths are constructed relative to the project root using
+      <code>pathlib.Path(__file__).resolve().parent.parent</code>.
+    </div>
+
+    <p>The unified ETL pipeline (<code>scripts/etl_pipeline.py</code>) processes all 10 datasets in 4 sequential stages:
+    </p>
+
+    <table>
+      <tr>
+        <th>Stage</th>
+        <th>Steps</th>
+        <th>Output</th>
+      </tr>
+      <tr>
+        <td><strong>Extract</strong></td>
+        <td>Validate 10 CSV files exist; read with <code>low_memory=False</code></td>
+        <td>Raw DataFrames in memory</td>
+      </tr>
+      <tr>
+        <td><strong>Transform</strong></td>
+        <td>Date parsing, numeric coercion, deduplication, NAV ffill for weekends/holidays</td>
+        <td>Cleaned DataFrames → CSV</td>
+      </tr>
+      <tr>
+        <td><strong>Load</strong></td>
+        <td>Build dim_date; load all 11 SQLite tables via SQLAlchemy</td>
+        <td><code>bluestock_mf.db</code></td>
+      </tr>
+      <tr>
+        <td><strong>Report</strong></td>
+        <td>Write data quality summary with null%, dup counts, AMFI validation</td>
+        <td><code>reports/data_quality_report.txt</code></td>
+      </tr>
+    </table>
+
+    <h2 class="sub">3.2 NAV Weekend/Holiday Handling</h2>
+    <div class="formula">
+      # Reindex each fund's NAV to full business-day calendar, then ffill
+      full_range = pd.date_range(start=min_date, end=max_date, freq="B")
+      grp = grp.set_index("date")[["nav"]].reindex(full_range)
+      grp["nav"] = grp["nav"].ffill() # carries last known NAV through weekends
+      grp["nav"] = grp["nav"].bfill() # handles any leading NaNs
+    </div>
+
+    <h2 class="sub">3.3 Database Schema (Star Schema)</h2>
+    <table>
+      <tr>
+        <th>Table</th>
+        <th>Type</th>
+        <th>Rows (approx.)</th>
+        <th>Primary Key</th>
+      </tr>
+      <tr>
+        <td>dim_fund</td>
+        <td>Dimension</td>
+        <td>40</td>
+        <td>amfi_code</td>
+      </tr>
+      <tr>
+        <td>dim_date</td>
+        <td>Dimension</td>
+        <td>~2,000</td>
+        <td>date</td>
+      </tr>
+      <tr>
+        <td>fact_nav</td>
+        <td>Fact</td>
+        <td>~50,000</td>
+        <td>(amfi_code, date)</td>
+      </tr>
+      <tr>
+        <td>fact_transactions</td>
+        <td>Fact</td>
+        <td>~100,000</td>
+        <td>transaction_id</td>
+      </tr>
+      <tr>
+        <td>fact_performance</td>
+        <td>Fact</td>
+        <td>40</td>
+        <td>amfi_code</td>
+      </tr>
+      <tr>
+        <td>fact_aum</td>
+        <td>Fact</td>
+        <td>180</td>
+        <td>(date, fund_house)</td>
+      </tr>
+      <tr>
+        <td>fact_portfolio_holdings</td>
+        <td>Fact</td>
+        <td>~500</td>
+        <td>(amfi_code, stock, date)</td>
+      </tr>
+      <tr>
+        <td>fact_benchmark_indices</td>
+        <td>Fact</td>
+        <td>~6,000</td>
+        <td>(date, index_name)</td>
+      </tr>
+      <tr>
+        <td>fact_monthly_sip_inflows</td>
+        <td>Fact</td>
+        <td>60</td>
+        <td>month</td>
+      </tr>
+      <tr>
+        <td>fact_category_inflows</td>
+        <td>Fact</td>
+        <td>~300</td>
+        <td>(month, category)</td>
+      </tr>
+      <tr>
+        <td>fact_industry_folio_count</td>
+        <td>Fact</td>
+        <td>60</td>
+        <td>month</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- ═══════════════════ SECTION 4 — EDA ═══════════════════ -->
+  <div class="page page-break">
+    <h1 class="section">4. Exploratory Data Analysis (D3)</h1>
+
+    <h2 class="sub">4.1 Fund Universe</h2>
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-num">40</div>
+        <div class="kpi-lbl">Total Schemes</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-num">10</div>
+        <div class="kpi-lbl">AMCs</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-num">3</div>
+        <div class="kpi-lbl">Categories</div>
+        <div class="kpi-sub">Equity / Debt / Hybrid</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-num">5</div>
+        <div class="kpi-lbl">Risk Grades</div>
+        <div class="kpi-sub">Low → Very High</div>
+      </div>
+    </div>
+
+    <h2 class="sub">4.2 AUM Distribution by Category</h2>
+    <div class="progress-row">
+      <span class="progress-label">Equity</span>
+      <div class="progress-bar">
+        <div class="progress-fill" style="width:58%;background:#1e3a8a;"></div>
+      </div>
+      <span class="progress-val">58%</span>
+    </div>
+    <div class="progress-row">
+      <span class="progress-label">Debt</span>
+      <div class="progress-bar">
+        <div class="progress-fill" style="width:28%;background:#0d9488;"></div>
+      </div>
+      <span class="progress-val">28%</span>
+    </div>
+    <div class="progress-row">
+      <span class="progress-label">Hybrid</span>
+      <div class="progress-bar">
+        <div class="progress-fill" style="width:14%;background:#8b5cf6;"></div>
+      </div>
+      <span class="progress-val">14%</span>
+    </div>
+
+    <h2 class="sub">4.3 SIP Industry Trends (2020–2025)</h2>
+    <table>
+      <tr>
+        <th>Period</th>
+        <th>Monthly SIP Inflow (₹ Cr)</th>
+        <th>Active Accounts (Cr)</th>
+        <th>YoY Growth</th>
+      </tr>
+      <tr>
+        <td>FY2020–21</td>
+        <td>7,300</td>
+        <td>3.60</td>
+        <td>–</td>
+      </tr>
+      <tr>
+        <td>FY2021–22</td>
+        <td>9,200</td>
+        <td>4.87</td>
+        <td><span class="badge badge-green">+26.0%</span></td>
+      </tr>
+      <tr>
+        <td>FY2022–23</td>
+        <td>12,800</td>
+        <td>6.28</td>
+        <td><span class="badge badge-green">+39.1%</span></td>
+      </tr>
+      <tr>
+        <td>FY2023–24</td>
+        <td>17,600</td>
+        <td>8.10</td>
+        <td><span class="badge badge-green">+37.5%</span></td>
+      </tr>
+      <tr>
+        <td>FY2024–25</td>
+        <td>21,400</td>
+        <td>10.10</td>
+        <td><span class="badge badge-green">+21.6%</span></td>
+      </tr>
+    </table>
+
+    <div class="callout callout-info">
+      <strong>💡 Key Insight</strong>
+      Monthly SIP inflows grew nearly 3× over 5 years (₹7,300 Cr → ₹21,400 Cr), driven by increased retail investor
+      awareness post-COVID and smartphone-led digital onboarding.
+    </div>
+
+    <h2 class="sub">4.4 Geographic Distribution of Investors</h2>
+    <p>Investor transactions are dominated by <strong>Tier-1 cities</strong> (Mumbai, Delhi, Bengaluru, Hyderabad,
+      Chennai) accounting for 68% of total invested capital. Tier-2 cities (Pune, Ahmedabad, Surat, Jaipur) contributed
+      22%, with Tier-3 markets at 10%.</p>
+  </div>
+
+  <!-- ═══════════════════ SECTION 5 — PERFORMANCE ANALYTICS ═══════════════════ -->
+  <div class="page page-break">
+    <h1 class="section">5. Fund Performance Analytics (D4)</h1>
+
+    <h2 class="sub">5.1 Methodology — Key Formulas</h2>
+    <div class="formula">
+      # CAGR — ALWAYS use trading days (252/year), never calendar days
+      CAGR = (NAV_end / NAV_start)^(252 / n_trading_days) - 1
+
+      # Sharpe Ratio (annualised daily)
+      Sharpe = (mean(r - r_f) / std(r - r_f)) * sqrt(252)
+      where r_f = 6.5% / 252 (daily risk-free rate)
+
+      # Beta vs. NIFTY 50
+      Beta = Cov(r_fund, r_bench) / Var(r_bench)
+
+      # Jensen's Alpha (annualised)
+      Alpha = r_fund_ann - [r_f_ann + Beta * (r_bench_ann - r_f_ann)]
+
+      # Max Drawdown
+      MDD = min( (NAV_t - max(NAV_0..NAV_t)) / max(NAV_0..NAV_t) )
+    </div>
+
+    <h2 class="sub">5.2 Top 10 Fund Scorecard</h2>
+    <table>
+      <tr>
+        <th>Rank</th>
+        <th>Scheme</th>
+        <th>Category</th>
+        <th>3yr CAGR</th>
+        <th>Sharpe</th>
+        <th>Beta</th>
+        <th>Max DD</th>
+        <th>Risk</th>
+      </tr>
+      <tr>
+        <td>1</td>
+        <td>SBI Small Cap Fund – Direct</td>
+        <td>Equity</td>
+        <td>28.4%</td>
+        <td>1.52</td>
+        <td>0.82</td>
+        <td>–24.1%</td>
+        <td><span class="badge badge-red">Very High</span></td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>Axis Midcap Fund – Direct</td>
+        <td>Equity</td>
+        <td>24.7%</td>
+        <td>1.38</td>
+        <td>0.79</td>
+        <td>–21.3%</td>
+        <td><span class="badge badge-red">High</span></td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td>HDFC Top 100 – Direct</td>
+        <td>Equity</td>
+        <td>21.2%</td>
+        <td>1.42</td>
+        <td>0.93</td>
+        <td>–18.7%</td>
+        <td><span class="badge badge-amber">Mod High</span></td>
+      </tr>
+      <tr>
+        <td>4</td>
+        <td>ICICI Pru Bluechip – Direct</td>
+        <td>Equity</td>
+        <td>20.8%</td>
+        <td>1.35</td>
+        <td>0.91</td>
+        <td>–17.2%</td>
+        <td><span class="badge badge-amber">Mod High</span></td>
+      </tr>
+      <tr>
+        <td>5</td>
+        <td>SBI Bluechip – Direct</td>
+        <td>Equity</td>
+        <td>19.4%</td>
+        <td>1.29</td>
+        <td>0.88</td>
+        <td>–16.9%</td>
+        <td><span class="badge badge-amber">Mod High</span></td>
+      </tr>
+      <tr>
+        <td>6</td>
+        <td>Kotak Bluechip – Direct</td>
+        <td>Equity</td>
+        <td>19.1%</td>
+        <td>1.24</td>
+        <td>0.90</td>
+        <td>–17.5%</td>
+        <td><span class="badge badge-amber">Mod High</span></td>
+      </tr>
+      <tr>
+        <td>7</td>
+        <td>Axis Bluechip – Direct</td>
+        <td>Equity</td>
+        <td>18.6%</td>
+        <td>1.21</td>
+        <td>0.85</td>
+        <td>–16.1%</td>
+        <td><span class="badge badge-amber">Moderate</span></td>
+      </tr>
+      <tr>
+        <td>8</td>
+        <td>UTI Mid Cap Fund – Direct</td>
+        <td>Equity</td>
+        <td>22.3%</td>
+        <td>1.19</td>
+        <td>0.84</td>
+        <td>–22.8%</td>
+        <td><span class="badge badge-red">High</span></td>
+      </tr>
+      <tr>
+        <td>9</td>
+        <td>ABSL Liquid Fund</td>
+        <td>Debt</td>
+        <td>5.2%</td>
+        <td>3.21</td>
+        <td>0.04</td>
+        <td>–0.1%</td>
+        <td><span class="badge badge-green">Low</span></td>
+      </tr>
+      <tr>
+        <td>10</td>
+        <td>ICICI Pru Liquid Fund</td>
+        <td>Debt</td>
+        <td>5.1%</td>
+        <td>3.18</td>
+        <td>0.03</td>
+        <td>–0.1%</td>
+        <td><span class="badge badge-green">Low</span></td>
+      </tr>
+    </table>
+
+    <div class="callout callout-warn">
+      <strong>⚠️ Observation</strong>
+      Liquid funds achieve the highest Sharpe ratios (3.2+) due to minimal volatility, but their absolute returns (~5%)
+      barely beat inflation. Investors should not equate high Sharpe with high returns.
+    </div>
+
+    <h2 class="sub">5.3 Alpha Generation</h2>
+    <p>Only <strong>12 out of 40 schemes</strong> (30%) generated positive Jensen's Alpha vs. NIFTY 50. Among equity
+      funds, small and mid-cap schemes generated the most consistent alpha, while large-cap funds largely tracked the
+      benchmark with alphas near zero — consistent with the efficient market hypothesis for large caps.</p>
+  </div>
+
+  <!-- ═══════════════════ SECTION 6 — RISK ANALYTICS ═══════════════════ -->
+  <div class="page page-break">
+    <h1 class="section">6. Advanced Risk Analytics (D6)</h1>
+
+    <h2 class="sub">6.1 Historical VaR & CVaR (95%)</h2>
+    <div class="formula">
+      95% VaR = 5th percentile of daily returns
+      95% CVaR = Mean of returns below VaR (Expected Shortfall)
+    </div>
+
+    <table>
+      <tr>
+        <th>Category</th>
+        <th>Representative Fund</th>
+        <th>95% VaR (Daily)</th>
+        <th>95% CVaR (Daily)</th>
+        <th>Risk Level</th>
+      </tr>
+      <tr>
+        <td>Small Cap</td>
+        <td>SBI Small Cap Fund</td>
+        <td>–2.69%</td>
+        <td>–3.82%</td>
+        <td><span class="badge badge-red">Very High</span></td>
+      </tr>
+      <tr>
+        <td>Mid Cap</td>
+        <td>Axis Midcap Fund</td>
+        <td>–2.21%</td>
+        <td>–3.14%</td>
+        <td><span class="badge badge-red">High</span></td>
+      </tr>
+      <tr>
+        <td>Large Cap</td>
+        <td>HDFC Top 100</td>
+        <td>–1.74%</td>
+        <td>–2.48%</td>
+        <td><span class="badge badge-amber">Mod High</span></td>
+      </tr>
+      <tr>
+        <td>Hybrid</td>
+        <td>ICICI Pru Balanced Adv</td>
+        <td>–0.92%</td>
+        <td>–1.31%</td>
+        <td><span class="badge badge-amber">Moderate</span></td>
+      </tr>
+      <tr>
+        <td>Liquid</td>
+        <td>ABSL Liquid Fund</td>
+        <td>–0.02%</td>
+        <td>–0.03%</td>
+        <td><span class="badge badge-green">Very Low</span></td>
+      </tr>
+    </table>
+
+    <h2 class="sub">6.2 Sector Concentration — HHI Analysis</h2>
+    <p>The <strong>Herfindahl-Hirschman Index (HHI)</strong> measures sector concentration: HHI = Σ(sector_weight²).
+      Thresholds: >2500 = concentrated, <1500=diversified.</p>
+
+        <table>
+          <tr>
+            <th>Fund</th>
+            <th>HHI Score</th>
+            <th>Assessment</th>
+            <th>Top Sector Bet</th>
+          </tr>
+          <tr>
+            <td>Axis Bluechip Fund</td>
+            <td>2,968</td>
+            <td><span class="badge badge-red">Concentrated</span></td>
+            <td>Banking/BFSI (38%)</td>
+          </tr>
+          <tr>
+            <td>SBI Bluechip Fund</td>
+            <td>2,541</td>
+            <td><span class="badge badge-red">Concentrated</span></td>
+            <td>IT + Banking (41%)</td>
+          </tr>
+          <tr>
+            <td>HDFC Top 100 Fund</td>
+            <td>2,312</td>
+            <td><span class="badge badge-amber">Moderate</span></td>
+            <td>Banking (32%)</td>
+          </tr>
+          <tr>
+            <td>Axis Midcap Fund</td>
+            <td>1,820</td>
+            <td><span class="badge badge-amber">Moderate</span></td>
+            <td>Consumer Disc. (24%)</td>
+          </tr>
+          <tr>
+            <td>UTI Mid Cap Fund</td>
+            <td>1,240</td>
+            <td><span class="badge badge-green">Diversified</span></td>
+            <td>Industrials (18%)</td>
+          </tr>
+        </table>
+  </div>
+
+  <!-- ═══════════════════ SECTION 7 — INVESTOR BEHAVIOUR ═══════════════════ -->
+  <div class="page page-break">
+    <h1 class="section">7. Investor Behaviour Analysis</h1>
+
+    <h2 class="sub">7.1 Cohort Analysis by First-Transaction Year</h2>
+    <table>
+      <tr>
+        <th>Cohort Year</th>
+        <th>New Investors</th>
+        <th>Avg SIP (₹)</th>
+        <th>Total Invested</th>
+        <th>Top Fund Choice</th>
+      </tr>
+      <tr>
+        <td>2020</td>
+        <td>312</td>
+        <td>₹8,240</td>
+        <td>₹28.4 Cr</td>
+        <td>ABSL Liquid Fund</td>
+      </tr>
+      <tr>
+        <td>2021</td>
+        <td>891</td>
+        <td>₹9,100</td>
+        <td>₹86.2 Cr</td>
+        <td>Axis Bluechip – Regular</td>
+      </tr>
+      <tr>
+        <td>2022</td>
+        <td>1,847</td>
+        <td>₹10,200</td>
+        <td>₹198.7 Cr</td>
+        <td>HDFC Top 100 – Regular</td>
+      </tr>
+      <tr>
+        <td>2023</td>
+        <td>2,760</td>
+        <td>₹10,760</td>
+        <td>₹312.4 Cr</td>
+        <td>SBI Small Cap – Regular</td>
+      </tr>
+      <tr>
+        <td>2024</td>
+        <td>4,803</td>
+        <td>₹10,997</td>
+        <td>₹225.8 Cr</td>
+        <td>Axis Small Cap – Regular</td>
+      </tr>
+      <tr>
+        <td>2025*</td>
+        <td>197</td>
+        <td>₹13,505</td>
+        <td>₹19.0 Cr</td>
+        <td>Axis Midcap – Regular</td>
+      </tr>
+    </table>
+    <p style="font-size:11px;color:var(--mid);">*2025 data through May only.</p>
+
+    <div class="callout callout-success">
+      <strong>📌 Insight</strong>
+      The 2025 cohort, though smallest, has the highest avg SIP amount (₹13,505), suggesting a shift toward more
+      affluent or financially sophisticated new investors.
+    </div>
+
+    <h2 class="sub">7.2 SIP Continuity Analysis</h2>
+    <table>
+      <tr>
+        <th>Metric</th>
+        <th>Value</th>
+      </tr>
+      <tr>
+        <td>Investors with 6+ SIP transactions</td>
+        <td>1,362</td>
+      </tr>
+      <tr>
+        <td>Active (avg gap ≤ 35 days)</td>
+        <td>30 (2.2%)</td>
+      </tr>
+      <tr>
+        <td>At-Risk (avg gap > 35 days)</td>
+        <td>1,332 (97.8%)</td>
+      </tr>
+      <tr>
+        <td>Median inter-SIP gap (at-risk investors)</td>
+        <td>52 days</td>
+      </tr>
+    </table>
+
+    <div class="callout callout-danger">
+      <strong>🚨 Critical Finding</strong>
+      A 97.8% at-risk SIP churn rate suggests that most investors miss or delay monthly SIPs. This could be due to
+      mandate setup failures, payment method issues, or behavioural lapses. Targeted nudge campaigns (SMS/email
+      reminders) could substantially improve SIP continuity and long-term AUM growth.
+    </div>
+  </div>
+
+  <!-- ═══════════════════ SECTION 8 — MONTE CARLO ═══════════════════ -->
+  <div class="page page-break">
+    <h1 class="section">8. Monte Carlo Simulation — 5-Year Projection (B3)</h1>
+
+    <h2 class="sub">8.1 Methodology</h2>
+    <p>We model NAV growth using <strong>Geometric Brownian Motion (GBM)</strong>, a standard financial model assuming
+      log-normally distributed returns:</p>
+    <div class="formula">
+      S_t = S_0 · exp[(μ - ½σ²)·t + σ·√t·Z]
+
+      where:
+      S_0 = last known NAV
+      μ = mean daily return (computed from 5-year history)
+      σ = daily std deviation
+      Z ~ N(0, 1) random shocks (1,000 simulated paths)
+      t = 1,260 trading days (5 years × 252)
+    </div>
+
+    <h2 class="sub">8.2 Simulation Results — 5-Year Projected NAV</h2>
+    <table>
+      <tr>
+        <th>Fund</th>
+        <th>Start NAV (₹)</th>
+        <th>P5 Bear (₹)</th>
+        <th>P50 Median (₹)</th>
+        <th>P95 Bull (₹)</th>
+        <th>Expected CAGR</th>
+      </tr>
+      <tr>
+        <td>SBI Small Cap – Direct</td>
+        <td>158.4</td>
+        <td>89.2</td>
+        <td>312.8</td>
+        <td>618.4</td>
+        <td>14.6%</td>
+      </tr>
+      <tr>
+        <td>Axis Midcap – Direct</td>
+        <td>98.7</td>
+        <td>58.3</td>
+        <td>187.4</td>
+        <td>356.8</td>
+        <td>13.7%</td>
+      </tr>
+      <tr>
+        <td>HDFC Top 100 – Direct</td>
+        <td>892.6</td>
+        <td>562.4</td>
+        <td>1,624.8</td>
+        <td>2,958.3</td>
+        <td>12.7%</td>
+      </tr>
+      <tr>
+        <td>SBI Bluechip – Direct</td>
+        <td>74.3</td>
+        <td>46.8</td>
+        <td>133.2</td>
+        <td>238.9</td>
+        <td>12.4%</td>
+      </tr>
+      <tr>
+        <td>ICICI Pru Bluechip – Direct</td>
+        <td>102.8</td>
+        <td>64.7</td>
+        <td>183.6</td>
+        <td>327.4</td>
+        <td>12.3%</td>
+      </tr>
+    </table>
+
+    <div class="callout callout-warn">
+      <strong>⚠️ Interpretation Note</strong>
+      The wide P5–P95 spread (3–4× ratio) for small/mid cap funds reflects genuine uncertainty over 5 years. Investors
+      with < 5-year horizons should not rely on median projections alone — the bear-case scenario is equally plausible.
+        </div>
+    </div>
+
+    <!-- ═══════════════════ SECTION 9 — EFFICIENT FRONTIER ═══════════════════ -->
+    <div class="page page-break">
+      <h1 class="section">9. Markowitz Efficient Frontier (B4)</h1>
+
+      <h2 class="sub">9.1 Methodology</h2>
+      <p>Portfolio optimisation across 5 equity funds using <strong>Modern Portfolio Theory (MPT)</strong>. Two optimal
+        portfolios were identified:</p>
+      <ul style="margin-left:20px;line-height:2.2">
+        <li><strong>Minimum Variance Portfolio (MVP)</strong>: Minimises σ_p subject to Σw=1, w≥0</li>
+        <li><strong>Maximum Sharpe Portfolio (MSP)</strong>: Maximises (r_p − r_f) / σ_p</li>
+      </ul>
+      <div class="formula">
+        Portfolio metrics (annualised):
+        r_p = wᵀ·μ (portfolio return)
+        σ_p = √(wᵀ·Σ·w) (portfolio volatility)
+        Sharpe = (r_p − r_f) / σ_p where r_f = 6.5%
+      </div>
+
+      <h2 class="sub">9.2 Optimal Portfolio Weights</h2>
+      <table>
+        <tr>
+          <th>Fund</th>
+          <th>Min Variance Weight</th>
+          <th>Max Sharpe Weight</th>
+        </tr>
+        <tr>
+          <td>SBI Small Cap – Direct</td>
+          <td>4.2%</td>
+          <td>18.7%</td>
+        </tr>
+        <tr>
+          <td>Axis Midcap – Direct</td>
+          <td>8.6%</td>
+          <td>31.4%</td>
+        </tr>
+        <tr>
+          <td>HDFC Top 100 – Direct</td>
+          <td>42.3%</td>
+          <td>28.9%</td>
+        </tr>
+        <tr>
+          <td>SBI Bluechip – Direct</td>
+          <td>31.8%</td>
+          <td>12.6%</td>
+        </tr>
+        <tr>
+          <td>ICICI Pru Bluechip – Direct</td>
+          <td>13.1%</td>
+          <td>8.4%</td>
+        </tr>
+      </table>
+
+      <table>
+        <tr>
+          <th>Portfolio</th>
+          <th>Annual Return</th>
+          <th>Annual Volatility</th>
+          <th>Sharpe Ratio</th>
+        </tr>
+        <tr>
+          <td>Minimum Variance Portfolio</td>
+          <td>17.8%</td>
+          <td>11.2%</td>
+          <td>1.01</td>
+        </tr>
+        <tr>
+          <td>Maximum Sharpe Portfolio</td>
+          <td>21.4%</td>
+          <td>13.8%</td>
+          <td>1.11</td>
+        </tr>
+        <tr>
+          <td>Equal-Weight (naive)</td>
+          <td>19.3%</td>
+          <td>14.9%</td>
+          <td>0.86</td>
+        </tr>
+      </table>
+
+      <div class="callout callout-success">
+        <strong>✅ Key Finding</strong>
+        The Max Sharpe Portfolio achieves a Sharpe ratio 29% higher than naive equal-weight allocation, demonstrating
+        the practical value of MPT-based optimisation for retail investors.
+      </div>
+    </div>
+
+    <!-- ═══════════════════ SECTION 10 — DASHBOARD ═══════════════════ -->
+    <div class="page page-break">
+      <h1 class="section">10. Interactive Dashboard (D5 + B2)</h1>
+
+      <h2 class="sub">10.1 Dashboard Overview</h2>
+      <p>The dashboard (<code>dashboard/app.py</code>) is built with <strong>Streamlit + Plotly</strong> and provides 4
+        interactive pages with slicers/filters on every page:</p>
+
+      <table>
+        <tr>
+          <th>Page</th>
+          <th>Title</th>
+          <th>Key Visuals</th>
+          <th>Slicers</th>
+        </tr>
+        <tr>
+          <td>1</td>
+          <td>Industry Overview</td>
+          <td>AUM trend, SIP growth, folio count, category mix</td>
+          <td>Year, Category</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>Fund Performance</td>
+          <td>Return heatmap, Sharpe leaderboard, alpha/beta scatter</td>
+          <td>Fund House, Risk Grade</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>Investor Analytics</td>
+          <td>Cohort waterfall, SIP continuity donut, geo map</td>
+          <td>Cohort Year, City Tier</td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td>SIP & Market Trends</td>
+          <td>NAV time series, rolling Sharpe, benchmark overlay</td>
+          <td>Fund, Date Range</td>
+        </tr>
+      </table>
+
+      <div class="callout callout-info">
+        <strong>🚀 How to Run the Dashboard</strong>
+        <code style="font-family:monospace;">cd bluestock_mf_capstone &amp;&amp; streamlit run dashboard/app.py</code>
+        <br />Opens at <a href="http://localhost:8501">http://localhost:8501</a>
+      </div>
+    </div>
+
+    <!-- ═══════════════════ SECTION 11 — RECOMMENDATIONS ═══════════════════ -->
+    <div class="page page-break">
+      <h1 class="section">11. Strategic Recommendations</h1>
+
+      <div class="insight">
+        <span class="insight-icon">1️⃣</span>
+        <div class="insight-body">
+          <strong>Implement Markowitz-Guided Portfolio Construction</strong>
+          Replace equal-weight default portfolios with the Max Sharpe allocation (Axis Midcap 31% + HDFC Top 100 29% +
+          SBI Small Cap 19%). This improves Sharpe by 29% with comparable returns.
+        </div>
+      </div>
+      <div class="insight">
+        <span class="insight-icon">2️⃣</span>
+        <div class="insight-body">
+          <strong>SIP Continuity Nudge Programme</strong>
+          Launch T+3 day SMS/push notifications for missed SIPs. The 97.8% at-risk rate represents a massive
+          revenue-at-risk; even 20% recovery = ₹50+ Cr in annual SIP inflows.
+        </div>
+      </div>
+      <div class="insight">
+        <span class="insight-icon">3️⃣</span>
+        <div class="insight-body">
+          <strong>Tier-2/3 City Expansion</strong>
+          Tier-3 markets contribute only 10% of invested capital despite growing digitally. Target these markets with
+          lower minimum SIP amounts and vernacular-language education campaigns.
+        </div>
+      </div>
+      <div class="insight">
+        <span class="insight-icon">4️⃣</span>
+        <div class="insight-body">
+          <strong>Risk-Category Mismatch Alert</strong>
+          Cohort analysis shows 2024 first-time investors disproportionately chose Small Cap funds (highest VaR:
+          –2.69%). A suitability check at onboarding aligned to risk tolerance is recommended.
+        </div>
+      </div>
+      <div class="insight">
+        <span class="insight-icon">5️⃣</span>
+        <div class="insight-body">
+          <strong>5-Year Monte Carlo Planning Tool</strong>
+          Integrate the Monte Carlo projections into the investor-facing app to show personalised P5/P50/P95 NAV
+          projections — helps set realistic expectations and reduces premature redemptions.
+        </div>
+      </div>
+
+      <footer>
+        <p><strong>BlueStock Fintech Internship — Capstone Project I</strong></p>
+        <p> By Sarvesh Kumar Yadav &nbsp;|&nbsp; Batch 2026 &nbsp;|&nbsp; Submitted: July 10, 2026</p>
+        <p style="margin-top:8px;font-size:11px;">This report was generated as part of an academic internship project.
+          All data is from publicly available AMFI sources.</p>
+      </footer>
+    </div>
+
+    <!-- ═══════════════════ APPENDIX ═══════════════════ -->
+    <div class="page page-break">
+      <h1 class="section">A. Appendix — Data Dictionary</h1>
+
+      <h2 class="sub">A.1 Key Metric Definitions</h2>
+      <table>
+        <tr>
+          <th>Metric</th>
+          <th>Definition</th>
+          <th>Formula</th>
+        </tr>
+        <tr>
+          <td>CAGR</td>
+          <td>Compound Annual Growth Rate using trading days</td>
+          <td>(NAV_end/NAV_start)^(252/n_days) − 1</td>
+        </tr>
+        <tr>
+          <td>Sharpe Ratio</td>
+          <td>Risk-adjusted return above risk-free rate</td>
+          <td>(r_p − r_f) / σ_p × √252</td>
+        </tr>
+        <tr>
+          <td>Beta</td>
+          <td>Sensitivity of fund to benchmark movements</td>
+          <td>Cov(r_fund, r_bench) / Var(r_bench)</td>
+        </tr>
+        <tr>
+          <td>Alpha</td>
+          <td>Excess return above CAPM expectation</td>
+          <td>r_fund − [r_f + β(r_m − r_f)]</td>
+        </tr>
+        <tr>
+          <td>VaR 95%</td>
+          <td>Max loss on 95% of trading days</td>
+          <td>5th percentile of daily returns</td>
+        </tr>
+        <tr>
+          <td>CVaR 95%</td>
+          <td>Average loss on worst 5% days</td>
+          <td>Mean of returns ≤ VaR</td>
+        </tr>
+        <tr>
+          <td>Max Drawdown</td>
+          <td>Worst peak-to-trough decline</td>
+          <td>min[(NAV − rolling_max) / rolling_max]</td>
+        </tr>
+        <tr>
+          <td>HHI</td>
+          <td>Herfindahl-Hirschman sector concentration</td>
+          <td>Σ(sector_weight²)</td>
+        </tr>
+      </table>
+
+      <h2 class="sub">A.2 Deliverables Checklist</h2>
+      <table>
+        <tr>
+          <th>ID</th>
+          <th>Deliverable</th>
+          <th>File</th>
+          <th>Weight</th>
+          <th>Status</th>
+        </tr>
+        <tr>
+          <td>D1</td>
+          <td>ETL Pipeline</td>
+          <td>scripts/etl_pipeline.py</td>
+          <td>15%</td>
+          <td><span class="badge badge-green">✓ Complete</span></td>
+        </tr>
+        <tr>
+          <td>D2</td>
+          <td>SQLite Database</td>
+          <td>data/db/bluestock_mf.db</td>
+          <td>10%</td>
+          <td><span class="badge badge-green">✓ Complete</span></td>
+        </tr>
+        <tr>
+          <td>D3</td>
+          <td>EDA Notebook</td>
+          <td>notebooks/03_eda_analysis.ipynb</td>
+          <td>15%</td>
+          <td><span class="badge badge-green">✓ Complete</span></td>
+        </tr>
+        <tr>
+          <td>D4</td>
+          <td>Performance Metrics</td>
+          <td>notebooks/04_performance_analytics.ipynb</td>
+          <td>15%</td>
+          <td><span class="badge badge-green">✓ Complete</span></td>
+        </tr>
+        <tr>
+          <td>D5</td>
+          <td>Interactive Dashboard</td>
+          <td>dashboard/app.py + .pbix</td>
+          <td>20%</td>
+          <td><span class="badge badge-green">✓ Complete</span></td>
+        </tr>
+        <tr>
+          <td>D6</td>
+          <td>Advanced Analytics</td>
+          <td>notebooks/05_advanced_analytics.ipynb</td>
+          <td>10%</td>
+          <td><span class="badge badge-green">✓ Complete</span></td>
+        </tr>
+        <tr>
+          <td>D7</td>
+          <td>Final Report + Slides</td>
+          <td>reports/Final_Report.html + .pptx</td>
+          <td>15%</td>
+          <td><span class="badge badge-green">✓ Complete</span></td>
+        </tr>
+        <tr>
+          <td>B2</td>
+          <td>Streamlit Dashboard</td>
+          <td>dashboard/app.py</td>
+          <td>+10</td>
+          <td><span class="badge badge-green">✓ Complete</span></td>
+        </tr>
+        <tr>
+          <td>B3</td>
+          <td>Monte Carlo Simulation</td>
+          <td>notebooks/05_advanced_analytics.ipynb §7</td>
+          <td>+10</td>
+          <td><span class="badge badge-green">✓ Complete</span></td>
+        </tr>
+        <tr>
+          <td>B4</td>
+          <td>Markowitz Efficient Frontier</td>
+          <td>notebooks/05_advanced_analytics.ipynb §8</td>
+          <td>+10</td>
+          <td><span class="badge badge-green">✓ Complete</span></td>
+        </tr>
+      </table>
+
+      <footer>
+        <p>BlueStock Fintech Internship — Capstone Project I &nbsp;|&nbsp; Final Report v1.0 &nbsp;|&nbsp; July 10, 2026
+        </p>
+      </footer>
+    </div>
 
 </body>
+
 </html>

@@ -113,7 +113,7 @@ def build_cover(slide, prs):
     add_text_box(slide, "Capstone Project I — BlueStock Fintech Internship", 0.8, 2.5, 8.4, 0.6,
                  font_size=20, bold=False, color=RGBColor(0xa5, 0xb4, 0xfc), align=PP_ALIGN.CENTER)
     add_rect(slide, 2.5, 3.3, 5.0, 0.05, TEAL)
-    add_text_box(slide, "👥 Team: Sai Sindhuja Ch · Sarvesh K Yadav · Ganga Damalathi", 0.8, 3.6, 8.4, 0.5,
+    add_text_box(slide, "👥 Sarvesh Kumar Yadav", 0.8, 3.6, 8.4, 0.5,
                  font_size=14, color=WHITE, align=PP_ALIGN.CENTER)
     add_text_box(slide, "📅 Submission: July 10, 2026   |   📊 Data: Jan 2020 – May 2025", 0.8, 4.2, 8.4, 0.5,
                  font_size=13, color=RGBColor(0xcb, 0xd5, 0xe1), align=PP_ALIGN.CENTER)
@@ -440,7 +440,7 @@ def build_thankyou(slide, prs):
     add_text_box(slide, "Thank You", 0, 1.5, 10, 1.5, font_size=52, bold=True, color=WHITE, align=PP_ALIGN.CENTER)
     add_text_box(slide, "Questions & Discussion", 0, 3.2, 10, 0.6, font_size=22, color=RGBColor(0xa5, 0xb4, 0xfc), align=PP_ALIGN.CENTER)
     add_rect(slide, 3, 4.0, 4, 0.05, TEAL)
-    add_text_box(slide, "Sai Sindhuja Ch · Sarvesh K Yadav · Ganga Damalathi", 0, 4.3, 10, 0.5, font_size=15, color=WHITE, align=PP_ALIGN.CENTER)
+    add_text_box(slide, "Sarvesh Kumar Yadav", 0, 4.3, 10, 0.5, font_size=15, color=WHITE, align=PP_ALIGN.CENTER)
     add_text_box(slide, "BlueStock Fintech Internship · Batch 2026 · July 10, 2026", 0, 4.85, 10, 0.4, font_size=13, color=RGBColor(0x64, 0x74, 0x8b), align=PP_ALIGN.CENTER)
     deliverables = "D1 ETL  ·  D2 SQLite  ·  D3 EDA  ·  D4 Performance  ·  D5 Dashboard  ·  D6 Analytics  ·  D7 Report  ·  B2 Streamlit  ·  B3 Monte Carlo  ·  B4 Frontier"
     add_text_box(slide, deliverables, 0.4, 6.0, 9.2, 0.5, font_size=10, color=RGBColor(0x94, 0xa3, 0xb8), align=PP_ALIGN.CENTER)
